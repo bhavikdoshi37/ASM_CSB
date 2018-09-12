@@ -1,0 +1,19 @@
+<mvc:View controllerName="colgate.asm.planning.base.controller.AddActivity" xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:sap.ui.core="sap.ui.core" xmlns:semantic="sap.m.semantic" xmlns="sap.m">
+	<semantic:DetailPage busy="{masterShared>/oDetailBusy/busy}" busyIndicatorDelay="{masterShared>/oDetailBusy/delay}" id="page"
+		navButtonPress="onNavBack" showNavButton="{device&gt;/system/phone}" title="{i18n&gt;detailTitle}">
+		<semantic:content></semantic:content>
+		<semantic:messagesIndicator>
+			<semantic:MessagesIndicator press="onMessagesButtonPress"/>
+		</semantic:messagesIndicator>
+		<!--<semantic:saveAction>-->
+		<!--	<semantic:SaveAction id="save" press="onSave"/>-->
+		<!--</semantic:saveAction>-->
+		<!--<semantic:addAction>-->
+		<!--	<semantic:AddAction id="add" press="onSaveAndAdd" />-->
+		<!--</semantic:addAction>-->
+		<!--<semantic:cancelAction>-->
+		<!--	<semantic:CancelAction id="cancel" press="onCancel"/>-->
+		<!--</semantic:cancelAction>-->
+	</semantic:DetailPage>
+</mvc:View>

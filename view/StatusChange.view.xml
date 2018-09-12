@@ -1,0 +1,14 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m" controllerName="colgate.asm.planning.base.controller.StatusChange">
+	<semantic:MasterPage busy="{masterShared>/oMasterBusy/busy}" busyIndicatorDelay="{masterShared>/oMasterBusy/delay}" enableScrolling="false" id="page" navButtonPress="onNavBack" showNavButton="false" title="{masterView>/title}">
+		<semantic:subHeader/>
+		<semantic:content>
+			<FlexBox width="100%" id="__box0" alignItems="Center" justifyContent="Center" direction="Column">
+		    <items>
+		        <core:Icon src="sap-icon://message-success" size="7em" id="__icon0" color="Green"/>
+		        <TextArea wrapping="Soft" id="__area0" width="100%" value="{i18n>S_I_Instructions}" cols="40" editable="false" rows="23"/>
+		        <Button text="Cancel" width="100px" id="__button0" icon="sap-icon://sys-cancel-2" tooltip="{i18n>S_T_cancel}" press="onCancel"/>
+		    </items>
+		</FlexBox>
+		</semantic:content>
+	</semantic:MasterPage>
+</mvc:View>

@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="{Text>CC_noDataText}" title="{Text>CC_Title}" liveChange="onChange" search="onChange" confirm="onConfirm" close="onClose"
+		items="{path:'/Costcenter/Current'}">
+		<StandardListItem title="{Description}"/>
+	</SelectDialog>
+</core:FragmentDefinition>

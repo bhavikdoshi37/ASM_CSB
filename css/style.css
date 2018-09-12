@@ -1,0 +1,56 @@
+.Project {
+	font-weight: bolder;
+}
+
+.Activity {
+	font-weight: normal;
+}
+
+.SubActivity {
+	font-weight: normal;
+}
+
+.img-circle {
+    border-radius: 50%;
+    border:6px solid #FFFFFF;
+}
+
+.Totals {
+	font-weight: bolder;
+}
+
+.ModeEdit {
+    background-color: #FFCB88 !important;
+}
+
+.ModeStatus {
+    background-color: #D1F9E2 !important;
+}
+
+.ErrorState {
+	background-color: #F6CECE !important;
+}
+
+.WarningState {
+	background-color: #ffff99 !important;
+}
+
+html, body {  
+    height: 100%  
+}  
+    
+div#content {  
+    height: 100%  
+}
+
+.noScrollSection section {
+	overflow-y: hidden !important;
+}
+
+.WarningSelection {
+	border: 1px solid #ccd62d;
+}
+
+.sapMInputBaseDisabled.sapMComboBoxTextField {
+	border: 0px solid #000000;
+}

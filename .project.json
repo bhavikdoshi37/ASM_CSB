@@ -1,0 +1,22 @@
+{
+  "mockpreview": {
+    "mockUri": "",
+    "metadataFilePath": "",
+    "loadJSONFiles": false,
+    "loadCustomRequests": false,
+    "mockRequestsFilePath": ""
+  },
+  "deploy": {
+    "destination": "ASM",
+    "name": "Z_ASM_PLANNING"
+  },
+  "projectType": [
+    "sap.watt.uitools.ide.fiori",
+    "com.watt.common.builder.sapui5clientbuild"
+  ],
+  "build": {
+    "buildRequired": true,
+    "targetFolder": "dist",
+    "lastBuildDateTime": "Thu, 24 May 2018 23:16:33 GMT"
+  }
+}

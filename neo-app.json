@@ -1,0 +1,87 @@
+{
+  "routes": [
+    {
+      "path": "/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources",
+        "version": "1.38.25"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources",
+        "version": "1.38.25"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources",
+        "version": "1.38.25"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources",
+        "version": "1.38.25"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/sap/opu/odata",
+      "target": {
+        "type": "destination",
+        "name": "ASM",
+        "entryPath": "/sap/opu/odata"
+      },
+      "description": "ASM"
+    },
+    {
+      "path": "/sap/bc/ui5_ui5",
+      "target": {
+        "type": "destination",
+        "name": "ASM",
+        "entryPath": "/sap/bc/ui5_ui5"
+      },
+      "description": "ASM"
+    },
+    {
+      "path": "/sap/public/bc/icf",
+      "target": {
+        "type": "destination",
+        "name": "ASM",
+        "entryPath": "/sap/public/bc/icf"
+      },
+      "description": "ASM"
+    }
+  ],
+  "cacheControl": [
+    {
+      "directive": "private",
+      "maxAge": 0,
+      "path": "*html"
+    },
+    {
+      "directive": "private",
+      "maxAge": 0,
+      "path": "sap-ui-cachebuster-info.json"
+    },
+    {
+      "directive": "public",
+      "maxAge": 31536000
+    }
+  ]
+}

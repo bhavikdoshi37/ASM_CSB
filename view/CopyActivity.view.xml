@@ -1,0 +1,200 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout"
+	xmlns:t="sap.ui.table" controllerName="colgate.asm.planning.base.controller.CopyActivity" xmlns:uc="sap.ui.unified.calendar"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<semantic:DetailPage busy="{masterShared>/oDetailBusy/busy}" busyIndicatorDelay="{masterShared>/oDetailBusy/delay}" id="page"
+		navButtonPress="onNavBack" showNavButton="{device&gt;/system/phone}" class="noScrollSection">
+		<semantic:content>
+			<t:TreeTable rowHeight="40" columnMove="onColumnMove" filter="onColumnFilter" fixedColumnCount="1" id="Table"
+				rowSelectionChange="onRowSelectionChange" rows="{path:'Copy>/Table', parameters: {arrayNames:['rows']}}" visibleRowCountMode="Auto"
+				toggleOpenState="onToggle" selectionMode="None">
+				<!--Start of Additional Code Added SDS-->
+				<t:toolbar>
+					<m:Toolbar>
+						<m:content>
+							<m:Label text="{i18n>AC_year}"/>
+							<m:Select id="Year" items="{path:'Copy>/Header/TargetPlanningYear/Current', templateShareable:false}"
+								selectedKey="{Copy>/Header/TargetPlanningYear/Value}" change="onYearChange" enabled="{Copy>/Header/TargetPlanningYear/Enabled}"
+								forceSelection="true">
+								<m:items>
+									<core:Item key="{Copy>Key}" text="{Copy>Text}"/>
+								</m:items>
+							</m:Select>
+							<!--  Start change of header content sequencing  -->
+							<m:CheckBox text="{i18n&gt;CP_includeBudget}" id="cp_includeBudget"></m:CheckBox>
+							<!--<m:ToolbarSpacer/>-->
+							<m:Button icon="sap-icon://save" press="onSave" tooltip="{i18n&gt;CA_save}"/>
+							<m:Button icon="sap-icon://sys-cancel" press="onCancel" tooltip="{i18n&gt;CP_cancel}"/>
+						</m:content>
+					</m:Toolbar>
+				</t:toolbar>
+				<!--End of Additional Code Added SDS-->
+				<!--TreeTable attribute visibleRowCount="{projectView>/oTableControl/visibleRowCount}"-->
+				<t:columns>
+					<t:Column filterProperty="Name" sortProperty="Name" visible="true" width="{P13n>/FixedColumnConfig/0/width}">
+						<!--{P13n>/FixedColumnConfig/0/text}-->
+						<m:Label text="{P13n>/FixedColumnConfig/0/text}"/>
+						<t:template>
+							<!--	<m:Text text="{copy>Name}"/>-->
+							<m:FlexBox alignItems="Center" direction="Row">
+								<m:CheckBox editable="{Copy>isRowEditable}" visible="{Copy>isCheckVisible}" selected="{Copy>isSelected}"></m:CheckBox>
+								<m:Image src="{Copy>_iconPath}"/>
+								<m:Text text="" width="5px"/>
+								<m:Input value="{Copy>Name}" editable="{Copy>isRowEditable}" maxLength="40" valueState="{Copy>ValueState/Name}"
+									valueStateText="{Copy>ValueStateText/Name}"/>
+							</m:FlexBox>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column1" filterProperty="ActivityTypeDesc" sortProperty="ActivityTypeDesc" visible="true" width="210px">
+						<m:Text text="{i18n>AC_type}"/>
+						<t:template>
+							<m:Select id="Type" items="{path:'Copy>CurrentActivityTypes', templateShareable:false}" selectedKey="{Copy>ActivityType}"
+								placeholder="{Copy>Placeholders/ActivityType}" forceSelection="true" change="onActivityTypeChange" visible="true"
+								enabled="{Copy>isRowEditable}" valueState="{Copy>ValueState/ActivityType}" valueStateText="{Copy>ValueStateText/ActivityType}">
+								<m:items>
+									<core:Item key="{Copy>Key}" text="{Copy>Description}"/>
+								</m:items>
+							</m:Select>
+						</t:template>
+					</t:Column>
+					<t:Column filterProperty="LongText" sortProperty="LongText" visible="true" width="120px">
+						<!--{P13n>/FixedColumnConfig/0/text}-->
+						<m:Label text="{i18n>CP_longText}"/>
+						<t:template>
+							<m:Input value="{Copy>LongText}" editable="{Copy>isRowEditable}"/>
+						</t:template>
+					</t:Column>
+					<t:Column visible="true" width="170px">
+						<m:Label text="{i18n&gt;CP_Hub}"/>
+						<t:template>
+							<m:ComboBox id="HubKey" items="{path:'GeoFilter>/currentHubs', templateShareable:false}" placeholder="{i18n>AC_P_hub_e}"
+								editable="{Copy>isRowEditable}" enabled="{Copy>HubEnabled}" selectedKey="{Copy>HubKey}" selectionChange="onHubSelectionChange"
+								visible="true" valueState="{Copy>ValueState/Hub}" valueStateText="{Copy>ValueStateText/Hub}">
+								<m:items>
+									<core:Item key="{GeoFilter>HubKey}" text="{GeoFilter>Desc}"/>
+								</m:items>
+							</m:ComboBox>
+						</t:template>
+					</t:Column>
+					<t:Column visible="true" width="170px">
+						<m:Label text="{i18n&gt;CP_subsidiary}"/>
+						<t:template>
+							<m:ComboBox id="SubKey" items="{path:'Copy>currentSubs', templateShareable:false}"
+								placeholder="{= ${Copy>isEnabled} === true ? ${i18n>AC_P_sub_e} : ${i18n>AC_P_sub_he} }" editable="{Copy>isRowEditable}"
+								enabled="{Copy>isEnabled}" selectedKey="{Copy>SubKey}" selectionChange="onSubSelectionChange" visible="true"
+								valueState="{Copy>ValueState/Sub}" valueStateText="{Copy>ValueStateText/Sub}">
+								<m:items>
+									<core:Item key="{Copy>SubKey}" text="{Copy>Desc}"/>
+								</m:items>
+							</m:ComboBox>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column5" visible="true" width="210px">
+						<m:Label text="{i18n&gt;C_L_category}"/>
+						<t:template>
+							<m:ComboBox id="CategoryKey" items="{path:'Copy>CurrentCategories', templateShareable:false}" placeholder="{i18n>AC_P_category}"
+								selectedKey="{Copy>CategoryKey}" selectionChange="onSelectionChange" visible="true" enabled="{Copy>Enabled/Category}"
+								valueState="{Copy>ValueState/Category}" valueStateText="{Copy>ValueStateText/Category}">
+								<m:items>
+									<core:Item key="{Copy>Key}" text="{Copy>Description}"/>
+								</m:items>
+							</m:ComboBox>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column6" visible="true" width="210px">
+						<m:Label text="{i18n&gt;AC_pscategory}"/>
+						<t:template>
+							<m:ComboBox id="SubcategoryKey" items="{path:'Copy>CurrentSubcategories', templateShareable:false}"
+								placeholder="{Copy>Placeholders/Subcategory}" selectedKey="{Copy>SubcategoryKey}" selectionChange="onSelectionChange" visible="true"
+								enabled="{Copy>Enabled/Subcategory}" valueState="{Copy>ValueState/Subcategory}" valueStateText="{Copy>ValueStateText/Subcategory}">
+								<m:items>
+									<core:Item key="{Copy>Key}" text="{Copy>Description}"/>
+								</m:items>
+							</m:ComboBox>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column7" visible="true" width="210px">
+						<m:Label text="{i18n&gt;C_L_brand}"/>
+						<t:template>
+							<m:ComboBox id="BrandKey" items="{path:'Copy>CurrentBrands', templateShareable:false}" placeholder="{Copy>Placeholders/Brand}"
+								selectedKey="{Copy>BrandKey}" selectionChange="onSelectionChange" visible="true" enabled="{Copy>Enabled/Brand}"
+								valueState="{Copy>ValueState/Brand}" valueStateText="{Copy>ValueStateText/Brand}">
+								<m:items>
+									<core:Item key="{Copy>Key}" text="{Copy>Description}"/>
+								</m:items>
+							</m:ComboBox>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column8" visible="true" width="210px">
+						<m:Label text="{i18n&gt;C_L_subbrand}"/>
+						<t:template>
+							<m:ComboBox id="SubbrandKey" items="{path:'Copy>CurrentSubbrands', templateShareable:false}" placeholder="{Copy>Placeholders/Subbrand}"
+								selectedKey="{Copy>SubbrandKey}" selectionChange="onSelectionChange" visible="true" enabled="{Copy>Enabled/Subbrand}"
+								valueState="{Copy>ValueState/Subbrand}" valueStateText="{Copy>ValueStateText/Subbrand}">
+								<m:items>
+									<core:Item key="{Copy>Key}" text="{Copy>Description}"/>
+								</m:items>
+							</m:ComboBox>
+						</t:template>
+					</t:Column>
+					<t:Column filterProperty="StartDt" sortProperty="StartDt" visible="true" width="120px">
+						<!--{P13n>/FixedColumnConfig/0/text}-->
+						<m:Label text="{i18n&gt;CP_startDt}"/>
+						<t:template>
+							<!--	Date Picker additional code-->
+							<!--Changed display date Formate from MM/dd/yyyy to MM/yyyy July 13th,2016 -->
+							<!--<m:DatePicker visible="true" enabled="true" change="onDateChange" id="idStartDtDatePicker"-->
+							<!--	value="{ path:'copy&gt;StartDt', type: 'sap.ui.model.type.Date', formatOptions: { source: {pattern: 'yyyy-MM-ddThh:mm:ssZ'}, pattern: 'MM/yyyy' }}"/>-->
+							<!--psutram: feb 2017: added ValueState and valueStateText properties-->
+							<m:Input id="idStartDtDatePicker" editable="{Copy>isRowEditable}"
+								value="{ path:'Copy>StartDt', type: 'sap.ui.model.type.DateTime', formatOptions: { source: {pattern: 'yyyy-MM-ddThh:mm:ssZ'}, pattern: 'MMM/yyyy', UTC: true}}"
+								valueStateText="{Copy>AC_ValueStateText_StartDt}" valueState="{Copy>AC_ValueState_StartDt}" showValueHelp="true"
+								valueHelpRequest="onValueHelpRequest" valueHelpOnly="true"></m:Input>
+						</t:template>
+					</t:Column>
+					<!--End of Changes - Khrystyne Williams - Nov 2016-->
+					<!--Begin of Changes - Khrystyne Williams - Nov 2016-->
+					<!--<t:Column filterProperty="EndDt" sortProperty="EndDt" visible="true" width="120px">-->
+					<t:Column filterProperty="EndDt" sortProperty="EndDt" visible="true" width="120px">
+						<!--{P13n>/FixedColumnConfig/0/text}-->
+						<m:Label text="{i18n&gt;CP_endDt}"/>
+						<t:template>
+							<!--	Date Picker additional code -->
+							<!--<m:DatePicker visible="true" enabled="true" change="onDateChange" id="idEndDtDatePicker"-->
+							<!--	value="{ path:'copy&gt;EndDt', type: 'sap.ui.model.type.Date', formatOptions: { source: {pattern: 'yyyy-MM-ddThh:mm:ssZ'}, pattern: 'MM/yyyy' }}"/>-->
+							<!--psutram: feb 2017: added ValueState and valueStateText properties-->
+							<m:Input id="idEndDtDatePicker" editable="{Copy>isRowEditable}"
+								value="{ path:'Copy>EndDt', type: 'sap.ui.model.type.DateTime', formatOptions: { source: {pattern: 'yyyy-MM-ddThh:mm:ssZ'}, pattern: 'MMM/yyyy', UTC: true }}"
+								valueStateText="{Copy>AC_ValueStateText_EndDt}" valueState="{Copy>AC_ValueState_EndDt}" showValueHelp="true"
+								valueHelpRequest="onValueHelpRequest" valueHelpOnly="true"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column10" filterProperty="FunctionDesc" sortProperty="FunctionDesc" visible="true" width="{P13n>/FixedColumnConfig/10/width}">
+						<m:Text text="{i18n&gt;AC_function}"/>
+						<t:template>
+							<m:Text text="{Copy>FunctionDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column11" filterProperty="ChannelDesc" sortProperty="ChannelDesc" visible="true" width="{P13n>/FixedColumnConfig/11/width}">
+						<m:Text text="{i18n&gt;AC_channel}"/>
+						<t:template>
+							<m:Text text="{Copy>ChannelDesc}"/>
+						</t:template>
+					</t:Column>
+				</t:columns>
+			</t:TreeTable>
+		</semantic:content>
+		<!--<semantic:saveAction>-->
+		<!--	<semantic:SaveAction id="save" press="onSave"/>-->
+		<!--</semantic:saveAction>-->
+		<!--<semantic:cancelAction>-->
+		<!--	<semantic:CancelAction id="cancel" press="onCancel"/>-->
+		<!--</semantic:cancelAction>-->
+	</semantic:DetailPage>
+	<!--<App>
+		<pages>
+			<Page title="Title">
+				<content></content>
+			</Page>
+		</pages>
+	</App>-->
+</mvc:View>

@@ -1,0 +1,8 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ActionSheet title="" showCancelButton="true" placement="Bottom">
+		<buttons>
+			<Button text="{i18n&gt;GS_personalization}" icon="sap-icon://person-placeholder" press="onGlobalPersonalization"/>
+			<Button text="{i18n&gt;GS_currencyButton}" icon="sap-icon://money-bills" press="onCurrencySettings"/>
+		</buttons>
+	</ActionSheet>
+</core:FragmentDefinition>

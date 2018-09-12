@@ -1,0 +1,337 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m"
+	xmlns:uc="sap.ui.unified.calendar" xmlns:t="sap.ui.table">
+	<VBox class="sapUiSmallMargin">
+		<f:Form class="editableForm" editable="true" id="DDisplayActivityForm" ariaLabelledBy="Title1">
+			<f:toolbar>
+				<Toolbar id="DToolbar">
+					<Title id="DTitle1" titleStyle="H4" level="H4" text="{i18n>itemDisplay}{ChangeActivity>/Input/Name}"/>
+					<ToolbarSpacer/>
+					<!--Begin of Changes - Khrystyne Williams - Sept-->
+					<!--<Button icon="sap-icon://sys-cancel-2" press="onCancel"/>-->
+					<Button text="{i18n>AC_B_cancel}" press="onCancel" type="Reject"/>
+					<!--End of Changes - Khrystyne Williams - Sept-->
+				</Toolbar>
+			</f:toolbar>
+			<f:layout>
+				<f:ResponsiveGridLayout/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer ariaLabelledBy="Title2">
+					<!--Begin of Commenting - Khrystyne Williams - Sept-->
+					<!--<f:toolbar>-->
+					<!--	<Toolbar>-->
+					<!--		<Title id="DTitle2" text="{i18n>AC_information}" level="H5" titleStyle="H5"/>-->
+					<!--		<ToolbarSpacer/>-->
+					<!--	</Toolbar>-->
+					<!--</f:toolbar>-->
+					<!--End of Commenting - Khrystyne Williams - Sept-->
+					<f:formElements>
+						<f:FormElement id="DFEName" label="{i18n>AC_name}" visible="{ChangeActivity>/Visible/Name}">
+							<f:fields>
+								<Input id="DName" maxLength="40" value="{ChangeActivity>/Input/Name}" visible="{ChangeActivity>/Visible/Name}" enabled="true"
+									editable="false"/>
+							</f:fields>
+						</f:FormElement>
+						<!--Begin of Commenting - Khrystyne Williams - Sept-->
+						<!--<f:FormElement label="{i18n>AC_type}">-->
+						<!--	<f:fields>-->
+						<!--		<Input id="DType" value="{ChangeActivity>/Input/TypeDescription}" enabled="true" editable="false"/>-->
+						<!--	</f:fields>-->
+						<!--</f:FormElement>-->
+						<!--End of Commenting - Khrystyne Williams - Sept-->
+						<f:FormElement id="DFEProjectType" label="{i18n>AC_projectType}" visible="{ChangeActivity>/Visible/ProjectType}">
+							<f:fields>
+								<ComboBox id="DProjectType" items="{path:'ChangeActivity>/ProjectType/Current'}" selectedKey="{ChangeActivity>/Input/ProjectType}"
+									visible="{ChangeActivity>/Visible/ProjectType}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFEActivityType" label="{i18n>AC_activityType}" visible="{ChangeActivity>/Visible/ActivityType}">
+							<f:fields>
+								<ComboBox id="DActivityType" items="{path:'ChangeActivity>/ActivityType/Current'}" selectedKey="{ChangeActivity>/Input/ActivityType}"
+									visible="{ChangeActivity>/Visible/ActivityType}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFESubactivityType" label="{i18n>AC_subactivityType}" visible="{ChangeActivity>/Visible/SubactivityType}">
+							<f:fields>
+								<ComboBox id="DSubactivityType" items="{path:'ChangeActivity>/SubactivityType/Current'}"
+									selectedKey="{ChangeActivity>/Input/SubactivityType}" visible="{ChangeActivity>/Visible/SubactivityType}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFEStatus" label="{i18n>AC_status}" visible="{ChangeActivity>/Visible/Status}">
+							<f:fields>
+								<ComboBox id="DStatus" items="{path:'ChangeActivity>/Status'}" selectedKey="{ChangeActivity>/Input/Status}"
+									visible="{ChangeActivity>/Visible/Status}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{ChangeActivity>Status}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFEPriorityKey" label="{i18n>AC_priority}" visible="{ChangeActivity>/Visible/Priority}">
+							<f:fields>
+								<ComboBox id="DPriorityKey" items="{path:'ChangeActivity>/Priority/Current'}" selectedKey="{ChangeActivity>/Input/PriorityKey}" width="100%"
+									visible="{ChangeActivity>/Visible/Priority}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFEFunction" label="{i18n>AC_function}" visible="{ChangeActivity>/Visible/Function}">
+							<f:fields>
+								<ComboBox id="DFunction" items="{path:'Category>/VHFunctions'}" selectedKey="{ChangeActivity>/Input/Function}" width="100%"
+									visible="{ChangeActivity>/Visible/Function}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{Category>Key}" text="{Category>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFEChannel" label="{i18n>AC_channel}" visible="{ChangeActivity>/Visible/Channel}">
+							<f:fields>
+								<ComboBox id="DChannel" items="{path:'Category>/VHChannels'}" selectedKey="{ChangeActivity>/Input/Channel}" width="100%"
+									visible="{ChangeActivity>/Visible/Channel}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{Category>Key}" text="{Category>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFERetailer" label="{i18n>AC_retailer}" visible="{ChangeActivity>/Visible/Retailer}">
+							<f:fields>
+								<ComboBox id="DRetailer" items="{path:'ChangeActivity>/Retailer/Current'}" selectedKey="{ChangeActivity>/Input/Retailer}" width="100%"
+									visible="{ChangeActivity>/Visible/Retailer}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFEPlanningYear" label="{i18n>AC_planyear}">
+							<f:fields>
+								<Input id="DPlanningYear" value="{ChangeActivity>/Input/PlanningYear}" enabled="true" editable="false"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFEStartDt" label="{i18n>AC_startDt}">
+							<f:fields>
+								<FlexBox id="DFStartDt">
+									<Text text="{ path:'ChangeActivity>/Input/StartDt', formatter: '.formatter.formatDate'}"/>
+								</FlexBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFEEndDt" label="{i18n>AC_endDt}">
+							<f:fields>
+								<FlexBox id="DFEndDt">
+									<Text text="{ path:'ChangeActivity>/Input/EndDt', formatter: '.formatter.formatDate'}"/>
+								</FlexBox>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+					<!--INSERT - INBHD02-->
+					<f:formElements>
+						<f:FormElement>
+							<f:fields>
+								<Title id="DTitle3" text="{i18n>AC_aInformation}" level="H5" titleStyle="H5"/>
+								<ToolbarSpacer/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="DFEDemographics" label="{i18n>AC_demographics}" visible="{ChangeActivity>/Visible/Demographics}">
+							<f:fields>
+								<ComboBox id="DDemographics" items="{path:'Category>/VHDemographics'}" selectedKey="{ChangeActivity>/Input/Demographics}" width="100%"
+									visible="{ChangeActivity>/Visible/Demographics}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{Category>Key}" text="{Category>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AC_longText}">
+							<f:fields>
+								<TextArea maxLength="255" rows="3" value="{ChangeActivity>/Input/LongText}" editable="false" enabled="true"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AC_agency}" visible="{ChangeActivity>/Visible/Agency}">
+							<f:fields>
+								<ComboBox id="DAgency" items="{path:'ChangeActivity>/Agency/Current'}" selectedKey="{ChangeActivity>/Input/Agency}" width="100%"
+									visible="{ChangeActivity>/Visible/Agency}" enabled="true" editable="false">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AC_glAccount}" visible="{ChangeActivity>/Visible/GlAccount}">
+							<f:fields>
+								<Input id="DGlAccount" editable="false" visible="{ChangeActivity>/Visible/GlAccount}" enabled="true"
+									value="{ChangeActivity>/Input/GlAccount}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AC_po}" visible="{ChangeActivity>/Visible/PO}">
+							<f:fields>
+								<Input id="DPO" value="{ChangeActivity>/Display/PO}" visible="{ChangeActivity>/Visible/PO}" enabled="true" editable="false"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+					<!--INSERT + INBHD02-->
+				</f:FormContainer>
+				<f:FormContainer ariaLabelledBy="Title3">
+					<f:FormElement>
+						<f:fields>
+							<Title id="DTitleGeo" text="{i18n>AC_G_geography}" level="H5" titleStyle="H5"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement id="DFEDivision" label="{i18n>AC_division}" visible="{ChangeActivity>/Visible/Division}">
+						<f:fields>
+							<ComboBox id="DDivisionKey" items="{path:'Division>/VHDivision'}" selectedKey="{ChangeActivity>/Input/DivisionKey}"
+								selectionChange="onGeoSelectionChange" visible="{ChangeActivity>/Visible/Division}" enabled="true" editable="false">
+								<items>
+									<core:Item key="{Division>GeoKey}" text="{Division>Desc}"/>
+								</items>
+							</ComboBox>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement id="DFEHub" label="{i18n>AC_hub}" visible="{ChangeActivity>/Visible/Hub}">
+						<f:fields>
+							<ComboBox id="DHubKey" items="{path:'ChangeActivity>/Hub/Current'}" selectedKey="{ChangeActivity>/Input/HubKey}"
+								selectionChange="onGeoSelectionChange" visible="{ChangeActivity>/Visible/Hub}" enabled="true" editable="false">
+								<items>
+									<core:Item key="{ChangeActivity>GeoKey}" text="{ChangeActivity>Desc}"/>
+								</items>
+							</ComboBox>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement id="DFESub" label="{i18n>AC_subsidiary}" visible="{ChangeActivity>/Visible/Sub}">
+						<f:fields>
+							<ComboBox id="DSubKey" items="{path:'ChangeActivity>/Sub/Current'}" selectedKey="{ChangeActivity>/Input/SubKey}"
+								selectionChange="onGeoSelectionChange" visible="{ChangeActivity>/Visible/Sub}" enabled="true" editable="false">
+								<items>
+									<core:Item key="{ChangeActivity>GeoKey}" text="{ChangeActivity>Desc}"/>
+								</items>
+							</ComboBox>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement>
+						<f:fields>
+							<Title id="DTitlePH" text="{i18n>AC_G_prodhier}" level="H5" titleStyle="H5"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement id="DFECategory" label="{i18n>AC_category}" visible="{ChangeActivity>/Visible/Category}">
+						<f:fields>
+							<ComboBox id="DCategoryKey" items="{path:'Category>/VHCategories'}" selectedKey="{ChangeActivity>/Input/CategoryKey}"
+								selectionChange="onSelectionChange" visible="{ChangeActivity>/Visible/Category}" enabled="true" editable="false">
+								<items>
+									<core:Item key="{Category>Key}" text="{Category>Description}"/>
+								</items>
+							</ComboBox>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement id="DFESubcategory" label="{i18n>AC_pscategory}" visible="{ChangeActivity>/Visible/Subcategory}">
+						<f:fields>
+							<ComboBox id="DSubcategoryKey" items="{path:'ChangeActivity>/Subcategory/Current'}" selectedKey="{ChangeActivity>/Input/SubcategoryKey}"
+								selectionChange="onSelectionChange" visible="{ChangeActivity>/Visible/Subcategory}" enabled="true" editable="false">
+								<items>
+									<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+								</items>
+							</ComboBox>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement id="DFEBrand" label="{i18n>AC_brand}" visible="{ChangeActivity>/Visible/Brand}">
+						<f:fields>
+							<ComboBox id="DBrandKey" items="{path:'ChangeActivity>/Brand/Current'}" selectedKey="{ChangeActivity>/Input/BrandKey}"
+								selectionChange="onSelectionChange" visible="{ChangeActivity>/Visible/Brand}" enabled="true" editable="false">
+								<items>
+									<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+								</items>
+							</ComboBox>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="{i18n>AC_subbrand}" visible="{ChangeActivity>/Visible/Subbrand}">
+						<f:fields>
+							<ComboBox id="DSubbrandKey" items="{path:'ChangeActivity>/Subbrand/Current'}" selectedKey="{ChangeActivity>/Input/SubbrandKey}"
+								selectionChange="onSelectionChange" visible="{ChangeActivity>/Visible/Subbrand}" enabled="true" editable="false">
+								<items>
+									<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+								</items>
+							</ComboBox>
+						</f:fields>
+					</f:FormElement>
+					<!--INSERT + INBHD02-->
+						<f:FormElement id="DSCrossSubbrandList" label="{i18n>AC_listcrosssubbrand}" visible="{ChangeActivity>/Visible/CrossSubBrandList}">
+							<f:fields>
+								<FlexBox fitContainer="true">
+									<t:Table rows="{path:'ChangeActivity>/CSBSubbrand/Selected'}"  selectionMode="None" visibleRowCount="8" columnHeaderVisible="false">
+										<t:columns>
+											<t:Column resizable="false">
+												<t:template>
+													<Text text="{ChangeActivity>SubbrandDesc}"/>
+												</t:template>
+											</t:Column>
+										</t:columns>
+									</t:Table>
+								</FlexBox>
+							</f:fields>
+						</f:FormElement>
+					<!--INSERT - INBHD02-->					
+					<!--COMMENT + INBHD02-->
+					<!--<f:formElements>-->
+					<!--	<f:FormElement>-->
+					<!--		<f:fields>-->
+					<!--			<Title id="DTitle3" text="{i18n>AC_aInformation}" level="H5" titleStyle="H5"/>-->
+					<!--			<ToolbarSpacer/>-->
+					<!--		</f:fields>-->
+					<!--	</f:FormElement>-->
+					<!--	<f:FormElement id="DFEDemographics" label="{i18n>AC_demographics}" visible="{ChangeActivity>/Visible/Demographics}">-->
+					<!--		<f:fields>-->
+					<!--			<ComboBox id="DDemographics" items="{path:'Category>/VHDemographics'}" selectedKey="{ChangeActivity>/Input/Demographics}" width="100%"-->
+					<!--				visible="{ChangeActivity>/Visible/Demographics}" enabled="true" editable="false">-->
+					<!--				<items>-->
+					<!--					<core:Item key="{Category>Key}" text="{Category>Description}"/>-->
+					<!--				</items>-->
+					<!--			</ComboBox>-->
+					<!--		</f:fields>-->
+					<!--	</f:FormElement>-->
+					<!--	<f:FormElement label="{i18n>AC_longText}">-->
+					<!--		<f:fields>-->
+					<!--			<TextArea maxLength="255" rows="3" value="{ChangeActivity>/Input/LongText}" editable="false" enabled="true"/>-->
+					<!--		</f:fields>-->
+					<!--	</f:FormElement>-->
+					<!--	<f:FormElement label="{i18n>AC_agency}" visible="{ChangeActivity>/Visible/Agency}">-->
+					<!--		<f:fields>-->
+					<!--			<ComboBox id="DAgency" items="{path:'ChangeActivity>/Agency/Current'}" selectedKey="{ChangeActivity>/Input/Agency}" width="100%"-->
+					<!--				visible="{ChangeActivity>/Visible/Agency}" enabled="true" editable="false">-->
+					<!--				<items>-->
+					<!--					<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>-->
+					<!--				</items>-->
+					<!--			</ComboBox>-->
+					<!--		</f:fields>-->
+					<!--	</f:FormElement>-->
+					<!--	<f:FormElement label="{i18n>AC_glAccount}" visible="{ChangeActivity>/Visible/GlAccount}">-->
+					<!--		<f:fields>-->
+					<!--			<Input id="DGlAccount" editable="false" visible="{ChangeActivity>/Visible/GlAccount}" enabled="true"-->
+					<!--				value="{ChangeActivity>/Input/GlAccount}"/>-->
+					<!--		</f:fields>-->
+					<!--	</f:FormElement>-->
+					<!--	<f:FormElement label="{i18n>AC_po}" visible="{ChangeActivity>/Visible/PO}">-->
+					<!--		<f:fields>-->
+					<!--			<Input id="DPO" value="{ChangeActivity>/Display/PO}" visible="{ChangeActivity>/Visible/PO}" enabled="true" editable="false"/>-->
+					<!--		</f:fields>-->
+					<!--	</f:FormElement>-->
+					<!--</f:formElements>-->
+					<!--COMMENT - INBHD02-->
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

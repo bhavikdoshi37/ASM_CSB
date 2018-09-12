@@ -1,0 +1,381 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m"
+	xmlns:uc="sap.ui.unified.calendar" xmlns:t="sap.ui.table">
+	<VBox class="sapUiSmallMargin">
+		<f:Form class="editableForm" editable="true" id="ChangeActivityForm" ariaLabelledBy="Title1">
+			<f:toolbar>
+				<Toolbar id="Toolbar">
+					<Title id="Title1" titleStyle="H4" level="H4" text="{i18n>itemChange}{ChangeActivity>/Input/OriginalName}"/>
+					<ToolbarSpacer/>
+					<Button text="{i18n>AC_B_save}" press="onSave" type="Accept"/>
+					<Button text="{i18n>AC_B_cancel}" press="onCancel" type="Reject"/>
+				</Toolbar>
+			</f:toolbar>
+			<f:layout>
+				<f:ResponsiveGridLayout/>
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer ariaLabelledBy="Title2">
+					<f:formElements>
+						<f:FormElement id="FEGuid" label="{i18n>AC_guid}">
+							<f:fields>
+								<Input editable="false" id="Guid" value="{ChangeActivity>/Input/OriginalName}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEProjectType" label="{i18n>AC_projectType}" visible="{ChangeActivity>/Visible/ProjectType}">
+							<f:fields>
+								<ComboBox id="ProjectType" items="{path:'ChangeActivity>/ProjectType/Current'}" placeholder="{i18n>AC_P_projectType}"
+									selectedKey="{ChangeActivity>/Input/ProjectType}" visible="{ChangeActivity>/Visible/ProjectType}"
+									enabled="{ChangeActivity>/Enabled/ProjectType}">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEActivityType" label="{i18n>AC_activityType}" visible="{ChangeActivity>/Visible/ActivityType}">
+							<f:fields>
+								<ComboBox id="ActivityType" items="{path:'ChangeActivity>/ActivityType/Current'}" placeholder="{i18n>AC_P_activityType}"
+									selectedKey="{ChangeActivity>/Input/ActivityType}" visible="{ChangeActivity>/Visible/ActivityType}"
+									enabled="{ChangeActivity>/Enabled/ActivityType}">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FESubactivityType" label="{i18n>AC_subactivityType}" visible="{ChangeActivity>/Visible/SubactivityType}">
+							<f:fields>
+								<!--Begin of Changes - Khrystyne Williams - Nov 2016-->
+								<!--Added a selection change on the Subactivity type-->
+								<ComboBox id="SubactivityType" items="{path:'ChangeActivity>/SubactivityType/Current'}" placeholder="{i18n>AC_P_subactivityType}"
+									selectedKey="{ChangeActivity>/Input/SubactivityType}" visible="{ChangeActivity>/Visible/SubactivityType}"
+									enabled="{ChangeActivity>/Enabled/SubactivityType}" selectionChange="onSubActSelectionChange">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+								<!--End of Changes - Khrystyne Williams - Nov 2016-->
+							</f:fields>
+						</f:FormElement>
+						<!--Begin of Addition - Khrystyne Williams - September -->
+						<f:FormElement id="FEName" label="{i18n>AC_name}" visible="{ChangeActivity>/Visible/Name}">
+							<f:fields>
+								<Input id="Name" maxLength="40" placeholder="{i18n>AC_P_name}" value="{ChangeActivity>/Input/Name}" visible="{ChangeActivity>/Visible/Name}"
+									enabled="{ChangeActivity>/Enabled/Name}" change="onCheckValues"/>
+							</f:fields>
+						</f:FormElement>
+						<!--End of Addition - Khrystyne Williams - September-->
+						<f:FormElement id="FEStatus" label="{i18n>AC_status}" visible="{ChangeActivity>/Visible/Status}">
+							<f:fields>
+								<ComboBox id="Status" items="{path:'ChangeActivity>/Status'}" placeholder="{i18n>AC_P_status}" selectedKey="{ChangeActivity>/Input/Status}"
+									visible="{ChangeActivity>/Visible/Status}" enabled="{ChangeActivity>/Enabled/Status}">
+									<items>
+										<core:Item key="{ChangeActivity>Status}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEPriorityKey" label="{i18n>AC_priority}" visible="{ChangeActivity>/Visible/Priority}">
+							<f:fields>
+								<ComboBox id="PriorityKey" items="{path:'ChangeActivity>/Priority/Current'}" placeholder="{ChangeActivity>/Placeholders/Priority}"
+									selectedKey="{ChangeActivity>/Input/PriorityKey}" width="100%" visible="{ChangeActivity>/Visible/Priority}"
+									enabled="{ChangeActivity>/Enabled/Priority}">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEFunction" label="{i18n>AC_function}" visible="{ChangeActivity>/Visible/Function}">
+							<f:fields>
+								<ComboBox id="Function" items="{path:'Category>/VHFunctions'}" placeholder="{ChangeActivity>/Placeholders/Function}"
+									selectedKey="{ChangeActivity>/Input/Function}" width="100%" visible="{ChangeActivity>/Visible/Function}"
+									enabled="{ChangeActivity>/Enabled/Function}">
+									<items>
+										<core:Item key="{Category>Key}" text="{Category>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEChannel" label="{i18n>AC_channel}" visible="{ChangeActivity>/Visible/Channel}">
+							<f:fields>
+								<ComboBox id="Channel" items="{path:'Category>/VHChannels'}" placeholder="{ChangeActivity>/Placeholders/Channel}"
+									selectedKey="{ChangeActivity>/Input/Channel}" width="100%" visible="{ChangeActivity>/Visible/Channel}"
+									enabled="{ChangeActivity>/Enabled/Channel}">
+									<items>
+										<core:Item key="{Category>Key}" text="{Category>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FERetailer" label="{i18n>AC_retailer}" visible="{ChangeActivity>/Visible/Retailer}">
+							<f:fields>
+								<FlexBox justifyContent="SpaceBetween" fitContainer="true">
+									<items>
+										<ComboBox id="Retailer" items="{path:'ChangeActivity>/Retailer/Current'}" placeholder="{ChangeActivity>/Placeholders/Retailer}"
+											selectedKey="{ChangeActivity>/Input/Retailer}" visible="{ChangeActivity>/Visible/Retailer}" enabled="false" showButton="false" width="300px">
+											<items>
+												<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+											</items>
+										</ComboBox>
+										<Button icon="sap-icon://sys-cancel" press="onRetailerClear" visible="{ChangeActivity>/Visible/Retailer}"
+											enabled="{ChangeActivity>/Enabled/Retailer}"/>
+										<Button icon="sap-icon://search" press="onRetailerShow" visible="{ChangeActivity>/Visible/Retailer}"
+											enabled="{ChangeActivity>/Enabled/Retailer}"/>
+									</items>
+								</FlexBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEPlanningYear" label="{i18n>AC_planyear}">
+							<f:fields>
+								<Input editable="false" id="PlanningYear" value="{ChangeActivity>/Input/PlanningYear}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEStartDt" label="{i18n>AC_startend}">
+							<f:fields>
+								<FlexBox id="FStartDt">
+									<DatePicker visible="false" enabled="false" displayFormat="MM/yyyy" id="StartDt" placeholder="{i18n>AC_P_start}"
+										value="{ChangeActivity>/Input/StartDt}" valueFormat="yyyyMMdd"/>
+									<uc:MonthPicker id="MonthSt" select="onDtChange"/>
+								</FlexBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEEndDt" label="{i18n>AC_endmonth}">
+							<f:fields>
+								<FlexBox id="FEndDt">
+									<DatePicker visible="false" enabled="false" displayFormat="MM/yyyy" id="EndDt" placeholder="{i18n>AC_P_end}"
+										value="{ChangeActivity>/Input/EndDt}" valueFormat="yyyyMMdd"/>
+									<uc:MonthPicker id="MonthEd" select="onDtChange"/>
+								</FlexBox>
+							</f:fields>
+						</f:FormElement>
+						<!--INBHD02-->
+						<f:FormElement>
+							<f:fields>
+								<Title id="Title3" text="{i18n>AC_aInformation}" level="H5" titleStyle="H5"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEMaxValueC" label="{i18n>AC_maxc}" visible="{ChangeActivity>/Visible/MaxValueC}">
+							<f:fields>
+								<HBox alignItems="Center">
+									<Input editable="false" id="MaxValueC" liveChange="onBudgetChange"
+										value="{parts:[{path:'ChangeActivity>/Input/MaxValueC'},{path:'ChangeActivity>/Input/Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+									<Label text="{ChangeActivity>/Input/Currency}" class="sapUiTinyMarginBegin"/>
+								</HBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEDemographics" label="{i18n>AC_demographics}" visible="{ChangeActivity>/Visible/Demographics}">
+							<f:fields>
+								<ComboBox id="Demographics" items="{path:'ChangeActivity>/Demographics/Current'}" placeholder="{ChangeActivity>/Placeholders/Demographics}"
+									selectedKey="{ChangeActivity>/Input/Demographics}" width="100%" visible="{ChangeActivity>/Visible/Demographics}"
+									enabled="{ChangeActivity>/Enabled/Demographics}">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AC_longText}">
+							<f:fields>
+								<TextArea maxLength="255" rows="3" value="{ChangeActivity>/Input/LongText}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AC_agency}" visible="{ChangeActivity>/Visible/Agency}">
+							<f:fields>
+								<FlexBox justifyContent="SpaceBetween" fitContainer="true">
+									<items>
+										<ComboBox id="Agency" items="{path:'ChangeActivity>/Agency/Current'}" placeholder="{ChangeActivity>/Placeholders/Agency}"
+											selectedKey="{ChangeActivity>/Input/Agency}" visible="{ChangeActivity>/Visible/Agency}" enabled="false" showButton="false" width="300px">
+											<items>
+												<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+											</items>
+										</ComboBox>
+										<Button icon="sap-icon://sys-cancel" press="onAgencyClear" visible="{ChangeActivity>/Visible/Agency}"
+											enabled="{ChangeActivity>/Enabled/Agency}"/>
+										<Button icon="sap-icon://search" press="onAgencyShow" visible="{ChangeActivity>/Visible/Agency}" enabled="{ChangeActivity>/Enabled/Agency}"/>
+									</items>
+								</FlexBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>AC_glAccount}" visible="{ChangeActivity>/Visible/GlAccount}">
+							<f:fields>
+								<Input id="GlAccount" editable="false" value="{ChangeActivity>/Input/GlAccount}" visible="{ChangeActivity>/Visible/GlAccount}"/>
+							</f:fields>
+						</f:FormElement>
+						<!--INBHD02-->
+					</f:formElements>
+				</f:FormContainer>
+				<f:FormContainer ariaLabelledBy="Title3">
+					<f:formElements>
+						<f:FormElement>
+							<f:fields>
+								<Title id="TitleGeo" text="{i18n>AC_G_geography}" level="H5" titleStyle="H5"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEDivision" label="{i18n>AC_division}" visible="{ChangeActivity>/Visible/Division}">
+							<f:fields>
+								<ComboBox id="DivisionKey" items="{path:'Division>/VHDivision'}" placeholder="{i18n>AC_P_division}"
+									selectedKey="{ChangeActivity>/Input/DivisionKey}" selectionChange="onGeoSelectionChange" visible="{ChangeActivity>/Visible/Division}"
+									enabled="{ChangeActivity>/Enabled/Division}">
+									<items>
+										<core:Item key="{Division>GeoKey}" text="{Division>Desc}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEHub" label="{i18n>AC_hub}" visible="{ChangeActivity>/Visible/Hub}">
+							<f:fields>
+								<ComboBox id="HubKey" items="{path:'ChangeActivity>/Hub/Current'}" placeholder="{ChangeActivity>/Placeholders/Hub}"
+									selectedKey="{ChangeActivity>/Input/HubKey}" selectionChange="onGeoSelectionChange" visible="{ChangeActivity>/Visible/Hub}"
+									enabled="{ChangeActivity>/Enabled/Hub}">
+									<items>
+										<core:Item key="{ChangeActivity>GeoKey}" text="{ChangeActivity>Desc}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FESub" label="{i18n>AC_subsidiary}" visible="{ChangeActivity>/Visible/Sub}">
+							<f:fields>
+								<ComboBox id="SubKey" items="{path:'ChangeActivity>/Sub/Current'}" placeholder="{ChangeActivity>/Placeholders/Sub}"
+									selectedKey="{ChangeActivity>/Input/SubKey}" selectionChange="onGeoSelectionChange" visible="{ChangeActivity>/Visible/Sub}"
+									enabled="{ChangeActivity>/Enabled/Sub}">
+									<items>
+										<core:Item key="{ChangeActivity>GeoKey}" text="{ChangeActivity>Desc}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement>
+							<f:fields>
+								<Title id="TitlePH" text="{i18n>AC_G_prodhier}" level="H5" titleStyle="H5"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FECategory" label="{i18n>AC_category}" visible="{ChangeActivity>/Visible/Category}">
+							<f:fields>
+								<ComboBox id="CategoryKey" items="{path:'ChangeActivity>/Category/Current'}" placeholder="{ChangeActivity>/Placeholders/Category}"
+									selectedKey="{ChangeActivity>/Input/CategoryKey}" selectionChange="onSelectionChange" visible="{ChangeActivity>/Visible/Category}"
+									enabled="{ChangeActivity>/Enabled/Category}">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FESubcategory" label="{i18n>AC_pscategory}" visible="{ChangeActivity>/Visible/Subcategory}">
+							<f:fields>
+								<ComboBox id="SubcategoryKey" items="{path:'ChangeActivity>/Subcategory/Current'}" placeholder="{ChangeActivity>/Placeholders/Subcategory}"
+									selectedKey="{ChangeActivity>/Input/SubcategoryKey}" selectionChange="onSelectionChange" visible="{ChangeActivity>/Visible/Subcategory}"
+									enabled="{ChangeActivity>/Enabled/Subcategory}">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FEBrand" label="{i18n>AC_brand}" visible="{ChangeActivity>/Visible/Brand}">
+							<f:fields>
+								<ComboBox id="BrandKey" items="{path:'ChangeActivity>/Brand/Current'}" placeholder="{ChangeActivity>/Placeholders/Brand}"
+									selectedKey="{ChangeActivity>/Input/BrandKey}" selectionChange="onSelectionChange" visible="{ChangeActivity>/Visible/Brand}"
+									enabled="{ChangeActivity>/Enabled/Brand}">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FESubbrand" label="{i18n>AC_subbrand}" visible="{ChangeActivity>/Visible/Subbrand}">
+							<f:fields>
+								<ComboBox id="SubbrandKey" items="{path:'ChangeActivity>/Subbrand/Current'}" placeholder="{ChangeActivity>/Placeholders/Subbrand}"
+									selectedKey="{ChangeActivity>/Input/SubbrandKey}" selectionChange="onSelectionChange" visible="{ChangeActivity>/Visible/Subbrand}"
+									enabled="{ChangeActivity>/Enabled/Subbrand}">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+						<!--INBHD02 Cross sub brand allocation-->
+						<f:FormElement id="FECrossSubbrand" label="{i18n>AC_crosssubbrand}" visible="{ChangeActivity>/Visible/CrossSubBrand}">
+							<f:fields>
+								<FlexBox justifyContent="SpaceBetween" fitContainer="true">
+									<Button icon="sap-icon://add-activity" text="{i18n>AC_SelCrossSubBrand}" press="onSelectCrossBrand" visible="true"
+										enabled="{ChangeActivity>/Enabled/CrossSubBrandButton}"/>
+								</FlexBox>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement id="FECrossSubbrandList" label="{i18n>AC_listcrosssubbrand}" visible="{ChangeActivity>/Visible/CrossSubBrandList}">
+							<f:fields>
+								<FlexBox fitContainer="true">
+									<t:Table id="CSBListView" rows="{path:'ChangeActivity>/CSBSubbrand/Selected'}" selectionMode="None" visibleRowCount="12"
+										columnHeaderVisible="false">
+										<t:columns>
+											<t:Column resizable="false">
+												<t:template>
+													<Text text="{ChangeActivity>SubbrandDesc}"/>
+												</t:template>
+											</t:Column>
+										</t:columns>
+									</t:Table>
+								</FlexBox>
+							</f:fields>
+						</f:FormElement>
+						<!--INBHD02 Cross sub brand allocation-->
+						<!--INBHD02-->
+						<!--<f:FormElement>-->
+						<!--	<f:fields>-->
+						<!--		<Title id="Title3" text="{i18n>AC_aInformation}" level="H5" titleStyle="H5"/>-->
+						<!--	</f:fields>-->
+						<!--</f:FormElement>-->
+						<!--<f:FormElement id="FEMaxValueC" label="{i18n>AC_maxc}" visible="{ChangeActivity>/Visible/MaxValueC}">-->
+						<!--	<f:fields>-->
+						<!--		<HBox alignItems="Center">-->
+						<!--			<Input editable="false" id="MaxValueC" liveChange="onBudgetChange"-->
+						<!--				value="{parts:[{path:'ChangeActivity>/Input/MaxValueC'},{path:'ChangeActivity>/Input/Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+						<!--			<Label text="{ChangeActivity>/Input/Currency}" class="sapUiTinyMarginBegin"/>-->
+						<!--		</HBox>-->
+						<!--	</f:fields>-->
+						<!--</f:FormElement>-->
+						<!--<f:FormElement id="FEDemographics" label="{i18n>AC_demographics}" visible="{ChangeActivity>/Visible/Demographics}">-->
+						<!--	<f:fields>-->
+						<!--		<ComboBox id="Demographics" items="{path:'ChangeActivity>/Demographics/Current'}" placeholder="{ChangeActivity>/Placeholders/Demographics}"-->
+						<!--			selectedKey="{ChangeActivity>/Input/Demographics}" width="100%" visible="{ChangeActivity>/Visible/Demographics}"-->
+						<!--			enabled="{ChangeActivity>/Enabled/Demographics}">-->
+						<!--			<items>-->
+						<!--				<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>-->
+						<!--			</items>-->
+						<!--		</ComboBox>-->
+						<!--	</f:fields>-->
+						<!--</f:FormElement>-->
+						<!--<f:FormElement label="{i18n>AC_longText}">-->
+						<!--	<f:fields>-->
+						<!--		<TextArea maxLength="255" rows="3" value="{ChangeActivity>/Input/LongText}"/>-->
+						<!--	</f:fields>-->
+						<!--</f:FormElement>-->
+						<!--<f:FormElement label="{i18n>AC_agency}" visible="{ChangeActivity>/Visible/Agency}">-->
+						<!--	<f:fields>-->
+						<!--		<FlexBox justifyContent="SpaceBetween" fitContainer="true">-->
+						<!--			<items>-->
+						<!--				<ComboBox id="Agency" items="{path:'ChangeActivity>/Agency/Current'}" placeholder="{ChangeActivity>/Placeholders/Agency}"-->
+						<!--					selectedKey="{ChangeActivity>/Input/Agency}" visible="{ChangeActivity>/Visible/Agency}" enabled="false" showButton="false" width="300px">-->
+						<!--					<items>-->
+						<!--						<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>-->
+						<!--					</items>-->
+						<!--				</ComboBox>-->
+						<!--				<Button icon="sap-icon://sys-cancel" press="onAgencyClear" visible="{ChangeActivity>/Visible/Agency}"-->
+						<!--					enabled="{ChangeActivity>/Enabled/Agency}"/>-->
+						<!--				<Button icon="sap-icon://search" press="onAgencyShow" visible="{ChangeActivity>/Visible/Agency}" enabled="{ChangeActivity>/Enabled/Agency}"/>-->
+						<!--			</items>-->
+						<!--		</FlexBox>-->
+						<!--	</f:fields>-->
+						<!--</f:FormElement>-->
+						<!--<f:FormElement label="{i18n>AC_glAccount}" visible="{ChangeActivity>/Visible/GlAccount}">-->
+						<!--	<f:fields>-->
+						<!--		<Input id="GlAccount" editable="false" value="{ChangeActivity>/Input/GlAccount}" visible="{ChangeActivity>/Visible/GlAccount}"/>-->
+						<!--	</f:fields>-->
+						<!--</f:FormElement>-->
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+</core:FragmentDefinition>

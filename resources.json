@@ -1,0 +1,256 @@
+{
+    "resources": [
+        {
+            "name": ".user.project.json"
+        },
+        {
+            "name": "resources.json",
+            "merged": true
+        },
+        {
+            "name": "css/style.css"
+        },
+        {
+            "name": "img/Activity-web.png"
+        },
+        {
+            "name": "img/Sub-web.png"
+        },
+        {
+            "name": "img/Total-web.png"
+        },
+        {
+            "name": "img/Budget-web.png"
+        },
+        {
+            "name": "img/Sub-Activity-web.png"
+        },
+        {
+            "name": "img/ASMLogo.PNG"
+        },
+        {
+            "name": "img/Warning.png"
+        },
+        {
+            "name": "img/Div-web.png"
+        },
+        {
+            "name": "img/ColgateLogo.png"
+        },
+        {
+            "name": "img/Hub-web.png"
+        },
+        {
+            "name": "img/Project-web.png"
+        },
+        {
+            "name": "img/ASM_logo_Large.jpg"
+        },
+        {
+            "name": "Component.js"
+        },
+        {
+            "name": "Component-preload.js",
+            "merged": true
+        },
+        {
+            "name": "controller/StatusChange.controller.js"
+        },
+        {
+            "name": "controller/ChangeActivity.controller.js"
+        },
+        {
+            "name": "controller/ErrorHandler.js"
+        },
+        {
+            "name": "controller/App.controller.js"
+        },
+        {
+            "name": "controller/BaseController.js"
+        },
+        {
+            "name": "controller/Activities.controller.js"
+        },
+        {
+            "name": "controller/Master.controller.js"
+        },
+        {
+            "name": "controller/AddActivity.controller.js"
+        },
+        {
+            "name": "controller/ListSelector.js"
+        },
+        {
+            "name": "controller/CopyActivity.controller.js"
+        },
+        {
+            "name": ".project.json"
+        },
+        {
+            "name": "neo-app.json"
+        },
+        {
+            "name": "i18n/i18n.properties",
+            "raw": "i18n/i18n.properties"
+        },
+        {
+            "name": "localService/mockserver.js"
+        },
+        {
+            "name": "localService/metadata.xml"
+        },
+        {
+            "name": "localService/userMetadata.xml"
+        },
+        {
+            "name": "localService/mockdata/UserPhotos.json"
+        },
+        {
+            "name": "localService/mockdata/Users.json"
+        },
+        {
+            "name": "util/CopyUtils.js"
+        },
+        {
+            "name": "util/MonthPicker.js"
+        },
+        {
+            "name": "util/ColumnCatalog.js"
+        },
+        {
+            "name": "util/TimeoutUtils.js"
+        },
+        {
+            "name": "util/SpinnerUtils.js"
+        },
+        {
+            "name": "util/CustomPersonalizationPanel.js"
+        },
+        {
+            "name": "util/DropdownUtils.js"
+        },
+        {
+            "name": "util/RetailerUtils.js"
+        },
+        {
+            "name": "util/ValidationUtils.js"
+        },
+        {
+            "name": "util/FieldCheckUtils.js"
+        },
+        {
+            "name": "util/CustomCurrencyTypeFull.js"
+        },
+        {
+            "name": "util/CustomCurrencyType.js"
+        },
+        {
+            "name": "util/FormatUtils.js"
+        },
+        {
+            "name": "util/DateUtils.js"
+        },
+        {
+            "name": "util/FieldControlUtils.js"
+        },
+        {
+            "name": "util/PersonalizationUtils.js"
+        },
+        {
+            "name": "util/CostCenterUtils.js"
+        },
+        {
+            "name": "util/AdvCopyUtils.js"
+        },
+        {
+            "name": "util/OverlayUtils.js"
+        },
+        {
+            "name": "util/CurrencyUtils.js"
+        },
+        {
+            "name": "util/VendorUtils.js"
+        },
+        {
+            "name": "util/StatusChangeUtils.js"
+        },
+        {
+            "name": "model/grouper.js"
+        },
+        {
+            "name": "model/formatter.js"
+        },
+        {
+            "name": "model/GroupSortState.js"
+        },
+        {
+            "name": "model/models.js"
+        },
+        {
+            "name": "manifest.json"
+        },
+        {
+            "name": "view/DetailNoObjectsAvailable.view.xml"
+        },
+        {
+            "name": "view/ChangeActivity.view.xml"
+        },
+        {
+            "name": "view/Master.view.xml"
+        },
+        {
+            "name": "view/CopyActivity.view.xml"
+        },
+        {
+            "name": "view/AddActivity.view.xml"
+        },
+        {
+            "name": "view/NotFound.view.xml"
+        },
+        {
+            "name": "view/Activities.view.xml"
+        },
+        {
+            "name": "view/DetailObjectNotFound.view.xml"
+        },
+        {
+            "name": "view/StatusChange.view.xml"
+        },
+        {
+            "name": "view/Settings.fragment.xml"
+        },
+        {
+            "name": "view/App.view.xml"
+        },
+        {
+            "name": "fragment/VendorSelection.fragment.xml"
+        },
+        {
+            "name": "fragment/AddActivity.fragment.xml"
+        },
+        {
+            "name": "fragment/DisplayActivity.fragment.xml"
+        },
+        {
+            "name": "fragment/ProjectsPersonalizationDialog.fragment.xml"
+        },
+        {
+            "name": "fragment/TableSettings.fragment.xml"
+        },
+        {
+            "name": "fragment/CostCenterSelection.fragment.xml"
+        },
+        {
+            "name": "fragment/ChangeActivity.fragment.xml"
+        },
+        {
+            "name": "fragment/MonthYearPickerDialog.fragment.xml"
+        },
+        {
+            "name": "fragment/RetailerSelection.fragment.xml"
+        },
+        {
+            "name": "fragment/GlobalSettings.fragment.xml"
+        }
+    ]
+}

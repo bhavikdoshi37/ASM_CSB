@@ -1,0 +1,156 @@
+<mvc:View controllerName="colgate.asm.planning.base.controller.Master" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns="sap.m">
+	<semantic:MasterPage busy="{masterShared&gt;/oMasterBusy/busy}" busyIndicatorDelay="{masterShared&gt;/oMasterBusy/delay}"
+		enableScrolling="false" id="page" navButtonPress="onNavBack" showNavButton="false" title="{masterView&gt;/title}">
+		<semantic:subHeader></semantic:subHeader>
+		<semantic:content>
+			<!--Begin of Commenting - Khrystyne Williams - May 24, 2016-->
+			<!--Removing the User Photo and Detail-->
+			<!-- For client side filtering add this to the items attribute:  parameters: {operationMode: 'Client'}}" -->
+			<!--<FlexBox alignItems="Center" direction="Row" width="100%">-->
+			<!--	<items>-->
+			<!--<Image height="75px" id="UserImage" src="{masterShared>/oUser/userImage}" width="75px"/>-->
+			<!--		<FlexBox direction="Column" id="__box1" width="100%">-->
+			<!--			<items>-->
+			<!--				<Title id="__title0" text="{masterShared>/oUser/name}" titleStyle="H3" width="100%"/>-->
+			<!--				<Title id="__title1" text="{masterShared>/oUser/position}" titleStyle="H5" width="100%"/>-->
+			<!--			</items>-->
+			<!--		</FlexBox>-->
+			<!--	</items>-->
+			<!--</FlexBox>-->
+			<!--End of Commenting - Khrystyne Williams - May 24, 2016-->
+			<f:SimpleForm class="editableForm" columnsL="1" columnsM="1" editable="true" emptySpanL="4" emptySpanM="4" id="GeoFilterForm" labelSpanL="2"
+				labelSpanM="2" labelSpanS="2" layout="ResponsiveGridLayout" maxContainerCols="2">
+				<f:content>
+					<Label text="{i18n>AC_year}"/>
+					<ComboBox id="Year" items="{path:'GeoFilter>/PlanningYear/Current'}" selectedKey="{GeoFilter>/Input/PlanningYear}"
+						selectionChange="onYearChange">
+						<items>
+							<core:Item key="{GeoFilter>Key}" text="{GeoFilter>Text}"/>
+						</items>
+					</ComboBox>
+					<Label text="{i18n>AC_div}"/>
+					<ComboBox id="Division" items="{path:'Division>/VHDivision'}" placeholder="{i18n>AC_P_division}" selectedKey="{GeoFilter>/Input/Division}"
+						selectionChange="onGeoSelectionChange">
+						<items>
+							<core:Item key="{Division>GeoKey}" text="{Division>Desc}"/>
+						</items>
+					</ComboBox>
+					<Label text="{i18n>AC_hub}"/>
+					<ComboBox id="Hub" items="{path:'GeoFilter>/Hub/Current'}" placeholder="{GeoFilter>/Placeholders/Hub}" selectedKey="{GeoFilter>/Input/Hub}"
+						selectionChange="onGeoSelectionChange">
+						<items>
+							<core:Item key="{GeoFilter>GeoKey}" text="{GeoFilter>Desc}"/>
+						</items>
+					</ComboBox>
+					<Label text="{i18n>AC_sub}"/>
+					<ComboBox id="Sub" items="{path:'GeoFilter>/Sub/Current'}" placeholder="{GeoFilter>/Placeholders/Sub}" selectedKey="{GeoFilter>/Input/Sub}"
+						selectionChange="onGeoSelectionChange">
+						<items>
+							<core:Item key="{GeoFilter>GeoKey}" text="{GeoFilter>Desc}"/>
+						</items>
+					</ComboBox>
+					<Label text="{i18n>AC_function_s}"/>
+					<ComboBox id="Function" items="{path:'Division>/VHFunctions'}" placeholder="{i18n>AC_P_function}" selectedKey="{GeoFilter>/Input/Function}"
+						selectionChange="onFilterChange">
+						<items>
+							<core:Item key="{Division>Key}" text="{Division>Description}"/>
+						</items>
+					</ComboBox>
+					<Label text="{i18n>AC_channel_s}"/>
+					<ComboBox id="Channel" items="{path:'Division>/VHChannels'}" placeholder="{i18n>AC_P_channel}" selectedKey="{GeoFilter>/Input/Channel}"
+						selectionChange="onFilterChange">
+						<items>
+							<core:Item key="{Division>Key}" text="{Division>Description}"/>
+						</items>
+					</ComboBox>
+					<!--Begin of Addition - Khrystyne Williams/Greg Hawkins - May 24, 2016-->
+					<!--Adding new filters for Category, SubCategory, and Brand-->
+					<Label text="{i18n>AC_brand_s}"/>
+					<ComboBox id="Brand" items="{path:'GeoFilter>/Brand/Current'}" placeholder="{GeoFilter>/Placeholders/Brand}"
+						selectedKey="{GeoFilter>/Input/Brand}" selectionChange="onGeoSelectionChange">
+						<items>
+							<core:Item key="{GeoFilter>Key}" text="{GeoFilter>Description}"/>
+						</items>
+					</ComboBox>
+					<Label text="{i18n>AC_category_s}"/>
+					<ComboBox id="Category" items="{path:'Division>/VHCategories'}" placeholder="{i18n>AC_P_category}" selectedKey="{GeoFilter>/Input/Category}"
+						selectionChange="onGeoSelectionChange">
+						<items>
+							<core:Item key="{Division>Key}" text="{Division>Description}"/>
+						</items>
+					</ComboBox>
+					<Label text="{i18n>AC_subcategory_s}"/>
+					<ComboBox id="Subcategory" items="{path:'GeoFilter>/Subcategory/Current'}" placeholder="{GeoFilter>/Placeholders/Subcategory}"
+						selectedKey="{GeoFilter>/Input/Subcategory}" selectionChange="onGeoSelectionChange">
+						<items>
+							<core:Item key="{GeoFilter>Key}" text="{GeoFilter>Description}"/>
+						</items>
+					</ComboBox>
+					<!--End of Addition - Khrystyne Williams/Greg Hawkins - May 16, 2016-->
+				</f:content>
+			</f:SimpleForm>
+			<HBox width="100%" justifyContent="Center">
+				<Button icon="sap-icon://clear-filter" press="onClearAllFilters" text="{i18n>C_T_clearServerFilters}"/>
+			</HBox>
+			<!--<PullToRefresh id="pullToRefresh" refresh="onRefresh" visible="{device>/support/touch}"/>-->
+			<!--<ScrollContainer height="65%" horizontal="false" id="scList" vertical="true" width="100%">-->
+			<!--	<List busy="{masterView>busy}" busyIndicatorDelay="{masterView>/delay}" growing="false" growingScrollToLoad="false" id="list"-->
+			<!--		items="{ path: 'Locations>/OnScreen/', groupHeaderFactory: '.createGroupHeader' }"-->
+			<!--		mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" noDataText="{masterView>/noDataText}" selectionChange="onSelectionChange"-->
+			<!--		updateFinished="onUpdateFinished">-->
+			<!--		<infoToolbar>-->
+			<!--			<Toolbar active="true" id="filterBar" press="onOpenViewSettings" visible="{masterView>/isFilterBarVisible}">-->
+			<!--				<Title id="filterBarLabel" text="{masterView>/filterBarLabel}"/>-->
+			<!--			</Toolbar>-->
+			<!--		</infoToolbar>-->
+			<!--		<items>-->
+			<!--			<ObjectListItem icon="{Locations>Icon}" press="onSelectionChange" title="{Locations>Description}"-->
+			<!--				type="{= ${device>/system/phone} ? 'Active' : 'Inactive'}"/>-->
+			<!--		</items>-->
+			<!--	</List>-->
+			<!--</ScrollContainer>-->
+			<!--<FlexBox alignItems="Center" direction="Column" witdh="100%">-->
+			<!--	<items>-->
+			<!--		<FlexBox direction="Column" id="__box2" width="90%">-->
+			<!--			<items>-->
+			<!--				<Button icon="{masterShared>/aMasterButtons/0/icon}" id="Button1" press="onButtonPress" text="{masterShared>/aMasterButtons/0/text}"-->
+			<!--					visible="{masterShared>/aMasterButtons/0/visible}" width="100%">-->
+			<!--					<layoutData>-->
+			<!--						<FlexItemData growFactor="1"/>-->
+			<!--					</layoutData>-->
+			<!--				</Button>-->
+			<!--				<Button icon="{masterShared>/aMasterButtons/1/icon}" id="Button2" press="onButtonPress" text="{masterShared>/aMasterButtons/1/text}"-->
+			<!--					visible="{masterShared>/aMasterButtons/1/visible}" width="100%">-->
+			<!--					<layoutData>-->
+			<!--						<FlexItemData growFactor="1"/>-->
+			<!--					</layoutData>-->
+			<!--				</Button>-->
+			<!--				<Button icon="{masterShared>/aMasterButtons/2/icon}" id="Button3" press="onButtonPress" text="{masterShared>/aMasterButtons/2/text}"-->
+			<!--					visible="{masterShared>/aMasterButtons/2/visible}" width="100%">-->
+			<!--					<layoutData>-->
+			<!--						<FlexItemData growFactor="1"/>-->
+			<!--					</layoutData>-->
+			<!--				</Button>-->
+			<!--			</items>-->
+			<!--		</FlexBox>-->
+			<!--	</items>-->
+			<!--</FlexBox>-->
+		</semantic:content>
+		<!--<semantic:sort>-->
+		<!--	<semantic:SortSelect change="onSort" id="sort" selectedKey="{masterView&gt;/sortBy}">-->
+		<!--		<core:Item id="masterSort1" key="Title" text="{i18n&gt;masterSort1}"/>-->
+		<!--		<core:Item id="masterSort2" key="ItemBudgetFrcstTotal" text="{i18n&gt;masterSort2}"/>-->
+		<!--	</semantic:SortSelect>-->
+		<!--</semantic:sort>-->
+		<!--<semantic:filter>-->
+		<!--	<semantic:FilterAction id="filter" press="onOpenViewSettings"/>-->
+		<!--</semantic:filter>-->
+		<!--<semantic:group>-->
+		<!--	<semantic:GroupSelect change="onGroup" id="group" selectedKey="{masterView&gt;/groupBy}">-->
+		<!--		<core:Item id="masterGroupNone" key="None" text="{i18n&gt;masterGroupNone}"/>-->
+		<!--		<core:Item id="masterGroup1" key="ItemBudgetFrcstTotal" text="{i18n&gt;masterGroup1}"/>-->
+		<!--	</semantic:GroupSelect>-->
+		<!--</semantic:group>-->
+	</semantic:MasterPage>
+</mvc:View>

@@ -1,0 +1,264 @@
+{
+    "_version": "1.2.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "colgate.asm.planning.base",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/ZASM_CORE_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "userService": {
+                "uri": "/sap/opu/odata/sap/ZASM_USER_INFO_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "odataVersion": "2.0",
+                    "localUri": "userMetadata.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "sap.ui.ui5-template-plugin.2masterdetail",
+            "version": "1.36.2"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "Z_ASM_PLANNING",
+                    "action": "Display"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://detail-view",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": [
+            "sap_hcb",
+            "sap_bluecrystal"
+        ],
+        "fullWidth": true
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "rootView": {
+            "viewName": "colgate.asm.planning.base.view.App",
+            "type": "XML",
+            "id": "app"
+        },
+        "dependencies": {
+            "minUI5Version": "1.36.0",
+            "libs": {
+                "sap.m": {
+                    "minVersion": "1.36.0"
+                },
+                "sap.ui.core": {
+                    "minVersion": "1.36.0"
+                },
+                "sap.ui.table": {
+                    "minVersion": "1.36.0"
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "colgate.asm.planning.base.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "settings": {}
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "colgate.asm.planning.base.view",
+                "controlId": "idAppControl",
+                "controlAggregation": "detailPages",
+                "bypassed": {
+                    "target": [
+                        "master",
+                        "notFound"
+                    ]
+                }
+            },
+            "routes": [
+                {
+                    "pattern": "",
+                    "name": "master",
+                    "target": [
+                        "master",
+                        "activities"
+                    ]
+                },
+                {
+                    "name": "activities",
+                    "pattern": "MasterCollection/Activities",
+                    "greedy": false,
+                    "target": [
+                        "master",
+                        "activities"
+                    ]
+                },
+                {
+                    "name": "addActivity",
+                    "pattern": "MasterCollection/AddActivity",
+                    "greedy": false,
+                    "target": [
+                        "master",
+                        "addActivity"
+                    ]
+                },
+                {
+                    "name": "changeActivity",
+                    "pattern": "MasterCollection/ChangeActivity",
+                    "greedy": false,
+                    "target": [
+                        "master",
+                        "changeActivity"
+                    ]
+                },
+                {
+                    "name": "statusChange",
+                    "pattern": "MasterCollection/StatusChange",
+                    "greedy": false,
+                    "target": [
+                        "statusChange",
+                        "activities"
+                    ]
+                },
+                {
+                    "name": "displayActivity",
+                    "pattern": "MasterCollection/DisplayActivity",
+                    "greedy": false,
+                    "target": [
+                        "master",
+                        "displayActivity"
+                    ]
+                },
+                {
+                    "name": "copyActivity",
+                    "pattern": "MasterCollection/CopyActivity",
+                    "greedy": false,
+                    "target": [
+                        "master",
+                        "copyActivity"
+                    ]
+                }
+            ],
+            "targets": {
+                "master": {
+                    "viewName": "Master",
+                    "viewLevel": 1,
+                    "viewId": "master",
+                    "controlAggregation": "masterPages"
+                },
+                "detailObjectNotFound": {
+                    "viewName": "DetailObjectNotFound",
+                    "viewId": "detailObjectNotFound"
+                },
+                "detailNoObjectsAvailable": {
+                    "viewName": "DetailNoObjectsAvailable",
+                    "viewId": "detailNoObjectsAvailable"
+                },
+                "notFound": {
+                    "viewName": "NotFound",
+                    "viewId": "notFound"
+                },
+                "activities": {
+                    "transition": "slide",
+                    "viewName": "Activities",
+                    "viewId": "activities",
+                    "viewLevel": 2
+                },
+                "addActivity": {
+                    "transition": "flip",
+                    "viewName": "AddActivity",
+                    "viewLevel": 2,
+                    "viewId": "activityadd",
+                    "parent": ""
+                },
+                "changeActivity": {
+                    "transition": "flip",
+                    "viewName": "ChangeActivity",
+                    "viewId": "activitychange",
+                    "viewLevel": 2
+                },
+                "statusChange": {
+                    "transition": "flip",
+                    "viewName": "StatusChange",
+                    "viewLevel": 1,
+                    "controlAggregation": "masterPages",
+                    "viewId": "statusChange"
+                },
+                "displayActivity": {
+                    "viewType": "XML",
+                    "transition": "flip",
+                    "clearAggregation": true,
+                    "viewName": "ChangeActivity",
+                    "viewId": "activitydisplay",
+                    "viewLevel": 2
+                },
+                "copyActivity": {
+                    "viewType": "XML",
+                    "clearAggregation": true,
+                    "viewName": "CopyActivity",
+                    "viewId": "activityCopy",
+                    "viewLevel": 2
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        }
+    },
+    "sap.platform.hcp": {
+        "uri": "",
+        "_version": "1.1.0"
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/z_asm_planning",
+        "_version": "1.1.0"
+    }
+}

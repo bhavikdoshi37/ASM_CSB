@@ -1,0 +1,15 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ActionSheet title="" showCancelButton="true" placement="Bottom">
+		<buttons>
+			<Button visible="{projectView>/oTableControl/bPersonalizeVisible}" enabled="{projectView>/oTableControl/personalizeEnabled}"
+				icon="sap-icon://personnel-view" press="onShowP13nScreen" text="{i18n>C_T_personalization}"/>
+			<Button text="{i18n>C_T_refresh}" press="onPressRefresh" enabled="{projectView>/oTableControl/refreshEnabled}"
+				visible="{projectView>/oTableControl/bRefreshVisible}" icon="sap-icon://refresh"/>
+			<Button visible="{projectView>/oTableControl/bClearVisible}" enabled="{projectView>/oTableControl/clearEnabled}"
+				icon="sap-icon://clear-filter" press="onClearAllFilters" text="{i18n&gt;C_T_clearfilters}"/>
+			<!--<ToggleButton icon="sap-icon://filter" text="{projectView>/oTableControl/projectFilterText}"-->
+			<!--	enabled="{projectView>/oTableControl/projectFilterEnabled}" pressed="{projectView>/oTableControl/projectFilterPressed}"-->
+			<!--	press="getMyProjects"/>-->
+		</buttons>
+	</ActionSheet>
+</core:FragmentDefinition>

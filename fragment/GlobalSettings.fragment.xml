@@ -1,0 +1,22 @@
+<core:FragmentDefinition
+		xmlns="sap.m"
+		xmlns:core="sap.ui.core">
+	<ViewSettingsDialog
+			confirm="onGPConfirm">
+		<customTabs>
+			<ViewSettingsCustomTab id="app-settings" icon="sap-icon://action-settings" title="{i18n>GS_settings}" tooltip="{i18n>GS_personalization}">
+				<content>
+					<Panel height="388px">
+						<content>
+						<Label text="{i18n>GS_hideMaster}" design="Bold"/>
+						<SegmentedButton width="100%" id="GS_hideMaster">
+							<Button text="{i18n>GS_yes}" id="YES" />
+							<Button text="{i18n>GS_no}" id="NO" />
+						</SegmentedButton>
+						</content>
+					</Panel>
+				</content>
+			</ViewSettingsCustomTab>
+		</customTabs>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

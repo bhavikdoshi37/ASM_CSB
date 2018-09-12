@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema Namespace="ZASM_USER_INFO_SRV" sap:schema-version="1" xml:lang="en" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="UserPhoto" m:HasStream="true" sap:content-version="1">
+				<Key><PropertyRef Name="ContentType"/><PropertyRef Name="Username"/></Key><Property MaxLength="3" Name="ContentType" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="Content Type" sap:sortable="false" sap:updatable="false"/><Property MaxLength="30" Name="Username" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="Branching name" sap:sortable="false" sap:updatable="false"/><Property MaxLength="127" Name="Mimetype" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="MIME Type" sap:sortable="false" sap:updatable="false"/><Property MaxLength="128" Name="Filename" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="File Name" sap:sortable="false" sap:updatable="false"/></EntityType>
+			<EntityType Name="User" sap:content-version="1">
+				<Key><PropertyRef Name="Username"/></Key><Property MaxLength="30" Name="Username" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="Branching name" sap:sortable="false" sap:updatable="false"/><Property MaxLength="40" Name="FirstName" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="First name" sap:sortable="false" sap:updatable="false"/><Property MaxLength="40" Name="LastName" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="Last name" sap:sortable="false" sap:updatable="false"/><Property MaxLength="40" Name="PositionTitle" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="Colgate Position Title" sap:sortable="false" sap:updatable="false"/><Property MaxLength="20" Name="Organization" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="Colgate Organization" sap:sortable="false" sap:updatable="false"/><Property MaxLength="4" Name="DivisionKey" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false"
+					sap:label="ASM Division" sap:sortable="false" sap:updatable="false"/><Property MaxLength="4" Name="HubKey" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false" sap:label="Hub"
+					sap:sortable="false" sap:updatable="false"/><Property MaxLength="4" Name="SubKey" Nullable="false" Type="Edm.String" sap:creatable="false" sap:filterable="false" sap:label="Sub"
+					sap:sortable="false" sap:updatable="false"/><NavigationProperty FromRole="FromRole_Photo" Name="UserToPhoto" Relationship="ZASM_USER_INFO_SRV.Photo" ToRole="ToRole_Photo"/></EntityType>
+			<Association Name="Photo" sap:content-version="1"><End Multiplicity="1" Role="FromRole_Photo" Type="ZASM_USER_INFO_SRV.User"/><End Multiplicity="*" Role="ToRole_Photo" Type="ZASM_USER_INFO_SRV.UserPhoto"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_Photo"><PropertyRef Name="Username"/></Principal>
+					<Dependent Role="ToRole_Photo"><PropertyRef Name="Username"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<EntityContainer Name="ZASM_USER_INFO_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet EntityType="ZASM_USER_INFO_SRV.User" Name="Users" sap:content-version="1" sap:creatable="false" sap:deletable="false"
+				sap:pageable="false" sap:updatable="false"/><EntitySet EntityType="ZASM_USER_INFO_SRV.UserPhoto" Name="UserPhotos" sap:content-version="1" sap:creatable="false" sap:deletable="false"
+				sap:pageable="false" sap:updatable="false"/>
+				<AssociationSet Association="ZASM_USER_INFO_SRV.Photo" Name="PhotoSet" sap:content-version="1" sap:creatable="false" sap:deletable="false"
+					sap:updatable="false"><End EntitySet="Users" Role="FromRole_Photo"/><End EntitySet="UserPhotos" Role="ToRole_Photo"/></AssociationSet>
+			</EntityContainer><atom:link href="http://jq02a040.esc.win.colpal.com:8000/sap/opu/odata/sap/ZASM_USER_INFO_SRV/$metadata" rel="self"
+				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link href="http://jq02a040.esc.win.colpal.com:8000/sap/opu/odata/sap/ZASM_USER_INFO_SRV/$metadata" rel="latest-version"
+				xmlns:atom="http://www.w3.org/2005/Atom"/></Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

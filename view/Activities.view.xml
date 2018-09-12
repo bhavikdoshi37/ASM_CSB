@@ -1,0 +1,1071 @@
+<mvc:View controllerName="colgate.asm.planning.base.controller.Activities" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:l="sap.ui.layout"
+	xmlns:m="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:t="sap.ui.table" xmlns:v="sap.ui.comp.variants"
+	xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m">
+	<semantic:DetailPage busy="{masterShared&gt;/oDetailBusy/busy}" busyIndicatorDelay="{masterShared&gt;/oDetailBusy/delay}" id="page"
+		navButtonPress="onNavBack" showNavButton="{device&gt;/system/phone}" class="noScrollSection">
+		<semantic:content>
+			<!--Begin of Changes - Khrystyne Williams - Nov-->
+			<!--Changes for tree table sizing-->
+			<!--Commented the vertical layout and content and added the visibleRowCountMode to the tree table - $PSW Nov 3 -->
+			<!--<l:VerticalLayout width="100%">-->
+			<!--	<l:content>-->
+			<!--<t:TreeTable columnMove="onColumnMove" filter="onColumnFilter" fixedColumnCount="1" id="Table" rowSelectionChange="onRowSelectionChange"-->
+			<!--	rows="{Project&gt;/OnScreen}" selectionMode="MultiToggle" visibleRowCount="{projectView>/oTableControl/visibleRowCount}"-->
+			<!--	toggleOpenState="onToggle" threshold="5000">-->
+			<html:iframe id="GoogleTag" src="https://www.googletagmanager.com/ns.html?id=GTM-N4HPB8V" height="0" width="0"
+				style="display:none;visibility:hidden"/>
+			<t:TreeTable rowHeight="40" columnMove="onColumnMove" filter="onColumnFilter" fixedColumnCount="1" id="Table"
+				rowSelectionChange="onRowSelectionChange" rows="{Project&gt;/OnScreen}" selectionMode="MultiToggle" visibleRowCountMode="Auto"
+				toggleOpenState="onToggle" threshold="100">
+				<t:toolbar>
+					<m:Toolbar>
+						<m:content>
+							<!-- PSW Start change of header content sequencing May 16th 2016 -->
+							<!--<m:ToolbarSeparator/>-->
+							<m:Button visible="{projectView>/oTableControl/bAddVisible}" enabled="{projectView>/oTableControl/addEnabled}" text="{i18n>AC_add}"
+								press="onAddActivity" tooltip="{i18n&gt;C_T_add}" type="Emphasized"/>
+							<m:Button visible="{projectView>/oTableControl/bDisplayVisible}" enabled="{projectView>/oTableControl/editEnabled}"
+								icon="sap-icon://display" press="onDisplay" tooltip="{i18n&gt;C_T_display}"/>
+							<m:Button visible="{projectView>/oTableControl/bEditVisible}" enabled="{projectView>/oTableControl/editEnabled}"
+								icon="sap-icon://edit-outside" press="onEdit" tooltip="{i18n&gt;C_T_edit}"/>
+							<m:Button visible="{projectView>/oTableControl/bEditVisible}" enabled="{projectView>/oTableControl/editEnabled}" icon="sap-icon://duplicate"
+								press="onCopy" tooltip="{i18n&gt;C_T_copy}"/>
+							<m:Button visible="{projectView>/oTableControl/bCopyVisible}" enabled="{projectView>/oTableControl/copyEnabled}" icon="sap-icon://documents"
+								press="onCopyActivity" tooltip="{i18n&gt;C_T_advcopy}"/>
+							<m:Button visible="{projectView>/oTableControl/bDeleteVisible}" enabled="{projectView>/oTableControl/deleteEnabled}"
+								icon="sap-icon://delete" press="onDelete" tooltip="{i18n&gt;C_T_delete}"/>
+							<m:Button tooltip="{i18n&gt;C_T_collapse}" icon="sap-icon://collapse" press="onCollapse"/>
+							<m:Button tooltip="{i18n&gt;C_T_expand}" icon="sap-icon://expand" press="onExpand"/>
+							<!--<m:Button visible="{projectView>/oTableControl/bEditVisible}" icon="sap-icon://download" tooltip="{i18n>CV_Download}" press="onExportToExcel" />-->
+							<m:ToolbarSeparator visible="{projectView>/oTableControl/bDeleteVisible}"/>
+							<!--<m:Label text="{i18n>A_bud}" visible="{projectView>/oTableControl/bStatusVisible}"/>-->
+							<m:Label text="{i18n>A_bud}" visible="{projectView>/oTableControl/bEditVisible}"/>
+							<m:Button visible="{projectView>/oTableControl/bEditVisible}" icon="sap-icon://edit" press="onBudgetEdit" tooltip="{i18n&gt;B_T_edit}"/>
+							<m:Button tooltip="{i18n>CP_P_Dist}" press="onDistribute" enabled="{projectView>/oTableControl/distributeEnabled}"
+								visible="{projectView>/oTableControl/bDistributeVisible}" text="{i18n>CP_Dist}" type="Emphasized"/>
+							<!--psutram modified Dec 15th 2016, adding a Calculate button-->
+							<m:Button tooltip="{i18n>C_T_calculator}" press="onPressCalculate" enabled="{projectView>/oTableControl/calculateEnabled}"
+								visible="{projectView>/oTableControl/bCalculateVisible}" icon="sap-icon://simulate"/>
+							<!--end of changes -->
+							<m:Button visible="{projectView>/oTableControl/bSaveVisible}" icon="sap-icon://save" press="onSave" tooltip="{i18n&gt;B_T_save}"/>
+							<m:Button visible="{projectView>/oTableControl/bCancelVisible}" icon="sap-icon://sys-cancel" press="onCancel" tooltip="{i18n&gt;B_T_cancel}"/>
+							<m:ToolbarSeparator visible="{projectView>/oTableControl/bSaveVisible}"/>
+							<m:ToolbarSeparator visible="{projectView>/oTableControl/bStatusVisible}"/>
+							<m:Label text="{i18n>A_stat}" visible="{projectView>/oTableControl/bEditVisible}"/>
+							<m:Button visible="{projectView>/oTableControl/bEditVisible}" icon="sap-icon://edit" press="onStatusChange" tooltip="{i18n&gt;C_T_status}"/>
+							<m:Button visible="{projectView>/oTableControl/bSSaveVisible}" enabled="{projectView>/oTableControl/statusEnabled}"
+								icon="sap-icon://multiselect-none" press="onSelectNone" tooltip="{i18n&gt;C_T_selNone}"/>
+							<m:Button visible="{projectView>/oTableControl/bSSaveVisible}" enabled="{projectView>/oTableControl/selMatchEnabled}"
+								icon="sap-icon://multiselect-all" press="onSSelectMatch" tooltip="{i18n&gt;C_T_selMatch}"/>
+							<m:FlexBox alignItems="Center" direction="Row" visible="{projectView>/oTableControl/bSSaveVisible}">
+								<m:Label text="{i18n>S_fStatus}" textAlign="Center"/>
+								<m:ComboBox id="FStatus" items="{path:'projectView>/oFStatus/Options'}" placeholder="{projectView>/oFStatus/Placeholder}"
+									selectedKey="{projectView>/oFStatus/Selected}" visible="{projectView>/oFStatus/Visible}" enabled="{projectView>/oFStatus/Enabled}"
+									selectionChange="onFStatusChange">
+									<m:items>
+										<core:Item key="{projectView>Status}" text="{projectView>Description}"/>
+									</m:items>
+								</m:ComboBox>
+							</m:FlexBox>
+							<m:FlexBox alignItems="Center" direction="Row" visible="{projectView>/oTableControl/bSSaveVisible}">
+								<m:Label text="{i18n>S_tStatus}" textAlign="Center"/>
+								<m:ComboBox id="TStatus" items="{path:'projectView>/oTStatus/Options'}" placeholder="{projectView>/oTStatus/Placeholder}"
+									selectedKey="{projectView>/oTStatus/Selected}" visible="{projectView>/oTStatus/Visible}" enabled="{projectView>/oTStatus/Enabled}"
+									selectionChange="onTStatusChange">
+									<m:items>
+										<core:Item key="{projectView>Status}" text="{projectView>Description}"/>
+									</m:items>
+								</m:ComboBox>
+							</m:FlexBox>
+							<m:ToolbarSeparator visible="{projectView>/oTableControl/bSSaveVisible}"/>
+							<m:Button visible="{projectView>/oTableControl/bSSaveVisible}" enabled="{projectView>/oTableControl/sSaveEnabled}" icon="sap-icon://save"
+								press="onSSave" tooltip="{i18n&gt;S_T_save}"/>
+							<m:Button visible="{projectView>/oTableControl/bSCancelVisible}" enabled="{projectView>/oTableControl/statusEnabled}"
+								icon="sap-icon://sys-cancel" press="onSCancel" tooltip="{i18n&gt;S_T_cancel}"/>
+							<m:ToolbarSpacer/>
+							<m:ToggleButton icon="sap-icon://filter" tooltip="{projectView>/oTableControl/projectFilterText}" text="{projectView>/oTableControl/projectFilterText}"
+								enabled="{projectView>/oTableControl/projectFilterEnabled}" pressed="{projectView>/oTableControl/projectFilterPressed}"
+								press="getMyProjects"/>
+							<!--<m:ToolbarSpacer/>-->
+							<m:Title text="{i18n>A_view}" visible="{projectView>/oTableControl/bVariantVisible}" level="H3"/>
+							<v:VariantManagement id="Variant" enabled="true" manage="onVariantManage" save="onP13nSave" select="onVariantSelect"
+								showExecuteOnSelection="false" showShare="false" visible="{projectView>/oTableControl/bVariantVisible}" standardItemText="Custom Views"></v:VariantManagement>
+							<m:Button visible="{projectView>/oTableControl/bPersonalizeVisible}" enabled="{projectView>/oTableControl/personalizeEnabled}"
+								icon="sap-icon://drop-down-list" press="onShowTableSettings" tooltip="{i18n>C_T_personalization}"/>
+							<!--<m:Switch id="Switch" state="false" customTextOn="{i18n>GS_yes}" customTextOff="{i18n>GS_no}" change="getMyProjects" />-->
+							<!--<m:Button visible="{projectView>/oTableControl/bPersonalizeVisible}" enabled="{projectView>/oTableControl/personalizeEnabled}"-->
+							<!--	icon="sap-icon://personnel-view" press="onShowP13nScreen" tooltip="{i18n>C_T_personalization}"/>-->
+							<!--<m:Button visible="{projectView>/oTableControl/bClearVisible}" enabled="{projectView>/oTableControl/clearEnabled}"-->
+							<!--	icon="sap-icon://clear-filter" press="onClearAllFilters" tooltip="{i18n&gt;C_T_clearfilters}"/>-->
+							<!--<m:Button tooltip="{i18n>C_T_refresh}" press="onPressRefresh" enabled="{projectView>/oTableControl/refreshEnabled}"-->
+							<!--	visible="{projectView>/oTableControl/bRefreshVisible}" icon="sap-icon://refresh"/>-->
+							<!--end of changes-->
+							<!--Begin of Changes - Khrystyne Williams - Nov 2016-->
+							<!--<m:Button tooltip="{i18n>CP_P_Refresh}" press="_onRefresh" enabled="{projectView>/oTableControl/clearEnabled}"-->
+							<!--	visible="{projectView>/oTableControl/bClearVisible}" icon="sap-icon://refresh"/>-->
+							<!--End of Changes - Khrystyne Williams - Nov 2016-->
+							<!--Begin of Commenting - Khrystyne Williams - October-->
+							<!--<m:Button visible="{projectView>/oTableControl/bEMailVisible}" enabled="{projectView>/oTableControl/eMailEnabled}" icon="sap-icon://email"-->
+							<!--	press="onShareEmailPress" tooltip="{i18n&gt;C_T_email}"/>-->
+							<!--End of Commenting - Khrystyne Williams - October-->
+							<!-- PSW End change of header content sequencing May 16th 2016 -->
+						</m:content>
+					</m:Toolbar>
+				</t:toolbar>
+				<t:columns>
+					<t:Column id="Column0" filterProperty="_name" sortProperty="Name" visible="{P13n>/FixedColumnConfig/0/visible}"
+						width="{P13n>/FixedColumnConfig/0/width}">
+						<m:Label text="{P13n>/FixedColumnConfig/0/text}"/>
+						<t:template>
+							<m:FlexBox alignItems="Center" direction="Row">
+								<m:Image src="{Project>_iconPath}"/>
+								<m:Text text="" width="5px"/>
+								<m:ObjectIdentifier title="{ path:'Project&gt;Name', formatter: '.formatter.addRowStyle'}"/>
+							</m:FlexBox>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column63" visible="{P13n>/FixedColumnConfig/63/visible}" width="{P13n>/FixedColumnConfig/63/width}">-->
+					<!--	<m:Text text="{i18n&gt;AC_level}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Image src="{Project>_iconPath}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column1" filterProperty="ActivityTypeDesc" sortProperty="ActivityTypeDesc" visible="{P13n>/FixedColumnConfig/1/visible}"
+						width="{P13n>/FixedColumnConfig/1/width}">
+						<m:Text text="{i18n&gt;AC_type}"/>
+						<t:template>
+							<!--Begin of Changes - Khrystyne Williams - Nov 2016-->
+							<m:Text text="{Project&gt;ActivityTypeDesc}" wrapping="false"/>
+							<!--End of Changes - Khrystyne Williams - Nov 2016-->
+						</t:template>
+					</t:Column>
+					<t:Column id="Column69" filterProperty="_statusDesc" sortProperty="_statusDesc" visible="{P13n>/FixedColumnConfig/69/visible}"
+						width="{P13n>/FixedColumnConfig/69/width}">
+						<m:Text text="{i18n&gt;AC_status}"/>
+						<t:template>
+							<m:Text text="{Project&gt;_statusDesc}"/>
+						</t:template>
+					</t:Column>
+					<!--Begin of Changes - Khrystyne Williams - Nov 2016-->
+					<!--GDH 20170326 - Mistake in the column number of column in catalog - fixed and made compatible-->
+					<t:Column id="Column63" filterProperty="_asmID" sortProperty="Id" visible="{P13n>/FixedColumnConfig/63/visible}"
+						width="{P13n>/FixedColumnConfig/63/width}">
+						<m:Text text="{i18n&gt;AC_id}"/>
+						<t:template>
+							<m:Text text="{Project&gt;Id}" wrapping="false"/>
+						</t:template>
+					</t:Column>
+					<!--End of Changes - Khrystyne Williams - Nov 2016-->
+					<t:Column id="Column2" filterProperty="DivisionDesc" sortProperty="DivisionDesc" visible="{P13n>/FixedColumnConfig/2/visible}"
+						width="{P13n>/FixedColumnConfig/2/width}">
+						<m:Text text="{i18n&gt;AC_division}"/>
+						<t:template>
+							<m:Text text="{Project&gt;DivisionDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column3" filterProperty="HubDesc" sortProperty="HubDesc" visible="{P13n>/FixedColumnConfig/3/visible}"
+						width="{P13n>/FixedColumnConfig/3/width}">
+						<m:Text text="{i18n&gt;AC_hub}"/>
+						<t:template>
+							<m:Text text="{Project&gt;HubDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column4" filterProperty="SubDesc" sortProperty="SubDesc" visible="{P13n>/FixedColumnConfig/4/visible}"
+						width="{P13n>/FixedColumnConfig/4/width}">
+						<m:Text text="{i18n&gt;AC_sub}"/>
+						<t:template>
+							<m:Text text="{Project&gt;SubDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column5" filterProperty="CategoryDesc" sortProperty="CategoryDesc" visible="{P13n>/FixedColumnConfig/5/visible}"
+						width="{P13n>/FixedColumnConfig/5/width}">
+						<m:Text text="{i18n&gt;C_L_category}"/>
+						<t:template>
+							<m:Text text="{Project&gt;CategoryDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column6" filterProperty="SubcategoryDesc" sortProperty="SubcategoryDesc" visible="{P13n>/FixedColumnConfig/6/visible}"
+						width="{P13n>/FixedColumnConfig/6/width}">
+						<m:Text text="{i18n&gt;AC_pscategory}"/>
+						<t:template>
+							<m:Text text="{Project&gt;SubcategoryDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column7" filterProperty="BrandDesc" sortProperty="BrandDesc" visible="{P13n>/FixedColumnConfig/7/visible}"
+						width="{P13n>/FixedColumnConfig/7/width}">
+						<m:Text text="{i18n&gt;C_L_brand}"/>
+						<t:template>
+							<m:Text text="{Project&gt;BrandDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column8" filterProperty="SubbrandDesc" sortProperty="SubbrandDesc" visible="{P13n>/FixedColumnConfig/8/visible}"
+						width="{P13n>/FixedColumnConfig/8/width}">
+						<m:Text text="{i18n&gt;C_L_subbrand}"/>
+						<t:template>
+							<m:Text text="{Project&gt;SubbrandDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column9" filterProperty="PriorityDesc" sortProperty="PriorityDesc" visible="{P13n>/FixedColumnConfig/9/visible}"
+						width="{P13n>/FixedColumnConfig/9/width}">
+						<m:Text text="{i18n&gt;C_L_priority}"/>
+						<t:template>
+							<m:Text text="{Project&gt;PriorityDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column10" filterProperty="FunctionDesc" sortProperty="FunctionDesc" visible="{P13n>/FixedColumnConfig/10/visible}"
+						width="{P13n>/FixedColumnConfig/10/width}">
+						<m:Text text="{i18n&gt;AC_function}"/>
+						<t:template>
+							<m:Text text="{Project&gt;FunctionDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column11" filterProperty="ChannelDesc" sortProperty="ChannelDesc" visible="{P13n>/FixedColumnConfig/11/visible}"
+						width="{P13n>/FixedColumnConfig/11/width}">
+						<m:Text text="{i18n&gt;AC_channel}"/>
+						<t:template>
+							<m:Text text="{Project&gt;ChannelDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column12" filterProperty="LongText" sortProperty="LongText" visible="{P13n>/FixedColumnConfig/12/visible}"
+						width="{P13n>/FixedColumnConfig/12/width}">
+						<m:Text text="{i18n&gt;AC_longText}"/>
+						<t:template>
+							<m:Text text="{Project&gt;LongText}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column13" filterProperty="StartDt" sortProperty="StartDt" visible="{P13n>/FixedColumnConfig/13/visible}"
+						width="{P13n>/FixedColumnConfig/13/width}">
+						<m:Text text="{i18n&gt;AC_startDt}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_StartDt}" id="StartDt" placeholder="{Project>FC_PlaceHolder_StartDt}" textAlign="Right"
+								showValueHelp="{Project>FC_Editable_StartDt}" valueHelpOnly="{Project>FC_Editable_StartDt}" valueHelpRequest="onMonthHelp"
+								value="{ path:'Project&gt;StartDt', formatter: '.formatter.formatDate'}" valueState="{Project>FC_ValueState_StartDt}"
+								valueStateText="{Project>FC_ValueStateText_StartDt}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column14" filterProperty="EndDt" sortProperty="EndDt" visible="{P13n>/FixedColumnConfig/14/visible}"
+						width="{P13n>/FixedColumnConfig/14/width}">
+						<m:Text text="{i18n&gt;AC_endDt}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_EndDt}" id="EndDt" placeholder="{Project>FC_PlaceHolder_EndDt}" textAlign="Right"
+								showValueHelp="{Project>FC_Editable_EndDt}" valueHelpOnly="{Project>FC_Editable_EndDt}" valueHelpRequest="onMonthHelp"
+								value="{ path:'Project&gt;EndDt', formatter: '.formatter.formatDate'}" valueState="{Project>FC_ValueState_EndDt}"
+								valueStateText="{Project>FC_ValueStateText_EndDt}"/>
+						</t:template>
+					</t:Column>
+					<!--Begin of Commenting - Khrystyne Williams - Nov 2016-->
+					<!--Maestro column is no longer needed for this application-->
+					<!--<t:Column id="Column113" filterProperty="MaestroBrief" sortProperty="MaestroBrief" visible="{P13n>/FixedColumnConfig/113/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/113/width}">-->
+					<!--	<m:Text text="{i18n&gt;AC_maestroBrief}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Text text="{Project&gt;MaestroBriefDesc}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--End of Commenting - Khrystyne Williams - Nov 2016-->
+					<t:Column id="Column64" filterProperty="Agency" sortProperty="Agency" visible="{P13n>/FixedColumnConfig/64/visible}"
+						width="{P13n>/FixedColumnConfig/64/width}">
+						<m:Text text="{i18n&gt;AC_agency}"/>
+						<t:template>
+							<m:Text text="{Project&gt;AgencyDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column65" filterProperty="Retailer" sortProperty="Retailer" visible="{P13n>/FixedColumnConfig/65/visible}"
+						width="{P13n>/FixedColumnConfig/65/width}">
+						<m:Text text="{i18n&gt;AC_retailer}"/>
+						<t:template>
+							<m:Text text="{Project&gt;RetailerDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column66" filterProperty="CostcenterDesc" sortProperty="CostcenterDesc" visible="{P13n>/FixedColumnConfig/66/visible}"
+						width="{P13n>/FixedColumnConfig/66/width}">
+						<m:Text text="{i18n&gt;AC_costcenter}"/>
+						<t:template>
+							<m:Text text="{Project>CostcenterDesc}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column67" filterProperty="GlAccount" sortProperty="GLAccount" visible="{P13n>/FixedColumnConfig/67/visible}"
+						width="{P13n>/FixedColumnConfig/67/width}">
+						<m:Text text="{i18n&gt;AC_glAccount}"/>
+						<t:template>
+							<m:Text text="{Project&gt;GlAccount}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column68" filterProperty="PO" sortProperty="PO" visible="{P13n>/FixedColumnConfig/68/visible}"
+						width="{P13n>/FixedColumnConfig/68/width}">
+						<m:Text text="{i18n&gt;AC_po}"/>
+						<t:template>
+							<m:Text text="{Project&gt;PO}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column82" filterProperty="MaxValueC" sortProperty="MaxValueC" visible="{P13n>/FixedColumnConfig/82/visible}"
+						width="{P13n>/FixedColumnConfig/82/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/82/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_MaxValueC}" sortProperty="MaxValueC" visible="{P13n>/FixedColumnConfig/82/visible}" liveChange="onBudgetChange"
+								value="{parts:[{path:'Project>MaxValueC'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_MaxValueC}" valueStateText="{Project>FC_ValueStateText_MaxValueC}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column80" filterProperty="MaxValueB" sortProperty="MaxValueB" visible="{P13n>/FixedColumnConfig/80/visible}"
+						width="{P13n>/FixedColumnConfig/80/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/80/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_MaxValueB}" id="MaxValueB" placeholder="{Project>FC_PlaceHolder_MaxValueB}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>MaxValueB'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_MaxValueB}" valueStateText="{Project>FC_ValueStateText_MaxValueB}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column70" filterProperty="AmtBTot" sortProperty="AmtBTot" visible="{P13n>/FixedColumnConfig/70/visible}"
+						width="{P13n>/FixedColumnConfig/70/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/70/text}"/>
+						<t:template>
+							<m:Input editable="false" id="AmtBTot" textAlign="Right"
+								value="{parts:[{path:'Project>AmtBTot'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column71" filterProperty="AmtATot" sortProperty="AmtATot" visible="{P13n>/FixedColumnConfig/71/visible}"
+						width="{P13n>/FixedColumnConfig/71/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/71/text}"/>
+						<t:template>
+							<m:Input editable="false" id="AmtATot" textAlign="Right"
+								value="{parts:[{path:'Project>AmtATot'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column72" filterProperty="AmtCTot" sortProperty="AmtCTot" visible="{P13n>/FixedColumnConfig/72/visible}"
+						width="{P13n>/FixedColumnConfig/72/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/72/text}"/>
+						<t:template>
+							<m:Input editable="false" id="AmtCTot" textAlign="Right"
+								value="{parts:[{path:'Project>AmtCTot'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column73" filterProperty="AmtCbTot" sortProperty="AmtCbTot" visible="{P13n>/FixedColumnConfig/73/visible}"
+						width="{P13n>/FixedColumnConfig/73/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/73/text}"/>
+						<t:template>
+							<m:Input editable="false" id="AmtCbTot" textAlign="Right"
+								value="{parts:[{path:'Project>AmtCbTot'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column15" filterProperty="AmtB1" sortProperty="AmtB1" visible="{P13n>/FixedColumnConfig/15/visible}"
+						width="{P13n>/FixedColumnConfig/15/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/15/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB1}" id="AmtB1" placeholder="{Project>FC_PlaceHolder_AmtB1}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB1'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB1}" valueStateText="{Project>FC_ValueStateText_AmtB1}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column16" filterProperty="AmtA1" sortProperty="AmtA1" visible="{P13n>/FixedColumnConfig/16/visible}"
+						width="{P13n>/FixedColumnConfig/16/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/16/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA1'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column17" filterProperty="AmtC1" sortProperty="AmtC1" visible="{P13n>/FixedColumnConfig/17/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/17/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/17/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC1'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column18" filterProperty="AmtCb1" sortProperty="AmtCb1" visible="{P13n>/FixedColumnConfig/18/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/18/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/18/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb1'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column19" filterProperty="AmtB2" sortProperty="AmtB2" visible="{P13n>/FixedColumnConfig/19/visible}"
+						width="{P13n>/FixedColumnConfig/19/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/19/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB2}" id="AmtB2" placeholder="{Project>FC_PlaceHolder_AmtB2}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB2'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB2}" valueStateText="{Project>FC_ValueStateText_AmtB2}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column20" filterProperty="AmtA2" sortProperty="AmtA2" visible="{P13n>/FixedColumnConfig/20/visible}"
+						width="{P13n>/FixedColumnConfig/20/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/20/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA2'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column21" filterProperty="AmtC2" sortProperty="AmtC2" visible="{P13n>/FixedColumnConfig/21/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/21/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/21/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC2'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column22" filterProperty="AmtCb2" sortProperty="AmtCb2" visible="{P13n>/FixedColumnConfig/22/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/22/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/22/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb2'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column23" filterProperty="AmtB3" sortProperty="AmtB3" visible="{P13n>/FixedColumnConfig/23/visible}"
+						width="{P13n>/FixedColumnConfig/23/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/23/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB3}" id="AmtB3" placeholder="{Project>FC_PlaceHolder_AmtB3}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB3'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB3}" valueStateText="{Project>FC_ValueStateText_AmtB3}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column24" filterProperty="AmtA3" sortProperty="AmtA3" visible="{P13n>/FixedColumnConfig/24/visible}"
+						width="{P13n>/FixedColumnConfig/24/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/24/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA3'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column25" filterProperty="AmtC3" sortProperty="AmtC3" visible="{P13n>/FixedColumnConfig/25/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/25/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/25/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC3'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column26" filterProperty="AmtCb3" sortProperty="AmtCb3" visible="{P13n>/FixedColumnConfig/26/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/26/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/26/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb3'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column27" filterProperty="AmtB4" sortProperty="AmtB4" visible="{P13n>/FixedColumnConfig/27/visible}"
+						width="{P13n>/FixedColumnConfig/27/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/27/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB4}" id="AmtB4" placeholder="{Project>FC_PlaceHolder_AmtB4}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB4'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB4}" valueStateText="{Project>FC_ValueStateText_AmtB4}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column28" filterProperty="AmtA4" sortProperty="AmtA4" visible="{P13n>/FixedColumnConfig/28/visible}"
+						width="{P13n>/FixedColumnConfig/28/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/28/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA4'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column29" filterProperty="AmtC4" sortProperty="AmtC4" visible="{P13n>/FixedColumnConfig/29/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/29/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/29/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC4'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column30" filterProperty="AmtCb4" sortProperty="AmtCb4" visible="{P13n>/FixedColumnConfig/30/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/30/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/30/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb4'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column31" filterProperty="AmtB5" sortProperty="AmtB5" visible="{P13n>/FixedColumnConfig/31/visible}"
+						width="{P13n>/FixedColumnConfig/31/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/31/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB5}" id="AmtB5" placeholder="{Project>FC_PlaceHolder_AmtB5}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB5'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB5}" valueStateText="{Project>FC_ValueStateText_AmtB5}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column32" filterProperty="AmtA5" sortProperty="AmtA5" visible="{P13n>/FixedColumnConfig/32/visible}"
+						width="{P13n>/FixedColumnConfig/32/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/32/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA5'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column33" filterProperty="AmtC5" sortProperty="AmtC5" visible="{P13n>/FixedColumnConfig/33/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/33/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/33/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC5'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column34" filterProperty="AmtCb5" sortProperty="AmtCb5" visible="{P13n>/FixedColumnConfig/34/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/34/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/34/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb5'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column35" filterProperty="AmtB6" sortProperty="AmtB6" visible="{P13n>/FixedColumnConfig/35/visible}"
+						width="{P13n>/FixedColumnConfig/35/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/35/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB6}" id="AmtB6" placeholder="{Project>FC_PlaceHolder_AmtB6}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB6'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB6}" valueStateText="{Project>FC_ValueStateText_AmtB6}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column36" filterProperty="AmtA6" sortProperty="AmtA6" visible="{P13n>/FixedColumnConfig/36/visible}"
+						width="{P13n>/FixedColumnConfig/36/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/36/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA6'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column37" filterProperty="AmtC6" sortProperty="AmtC6" visible="{P13n>/FixedColumnConfig/37/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/37/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/37/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC6'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column38" filterProperty="AmtCb6" sortProperty="AmtCb6" visible="{P13n>/FixedColumnConfig/38/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/38/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/38/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb6'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column39" filterProperty="AmtB7" sortProperty="AmtB7" visible="{P13n>/FixedColumnConfig/39/visible}"
+						width="{P13n>/FixedColumnConfig/39/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/39/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB7}" id="AmtB7" placeholder="{Project>FC_PlaceHolder_AmtB7}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB7'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB7}" valueStateText="{Project>FC_ValueStateText_AmtB7}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column40" filterProperty="AmtA7" sortProperty="AmtA7" visible="{P13n>/FixedColumnConfig/40/visible}"
+						width="{P13n>/FixedColumnConfig/40/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/40/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA7'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column41" filterProperty="AmtC7" sortProperty="AmtC7" visible="{P13n>/FixedColumnConfig/41/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/41/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/41/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC7'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column42" filterProperty="AmtCb7" sortProperty="AmtCb7" visible="{P13n>/FixedColumnConfig/42/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/42/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/42/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb7'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column43" filterProperty="AmtB8" sortProperty="AmtB8" visible="{P13n>/FixedColumnConfig/43/visible}"
+						width="{P13n>/FixedColumnConfig/43/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/43/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB8}" id="AmtB8" placeholder="{Project>FC_PlaceHolder_AmtB8}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB8'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB8}" valueStateText="{Project>FC_ValueStateText_AmtB8}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column44" filterProperty="AmtA8" sortProperty="AmtA8" visible="{P13n>/FixedColumnConfig/44/visible}"
+						width="{P13n>/FixedColumnConfig/44/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/44/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA8'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column45" filterProperty="AmtC8" sortProperty="AmtC8" visible="{P13n>/FixedColumnConfig/45/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/45/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/45/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC8'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column46" filterProperty="AmtCb8" sortProperty="AmtCb8" visible="{P13n>/FixedColumnConfig/46/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/46/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/46/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb8'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column47" filterProperty="AmtB9" sortProperty="AmtB9" visible="{P13n>/FixedColumnConfig/47/visible}"
+						width="{P13n>/FixedColumnConfig/47/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/47/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB9}" id="AmtB9" placeholder="{Project>FC_PlaceHolder_AmtB9}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB9'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB9}" valueStateText="{Project>FC_ValueStateText_AmtB9}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column48" filterProperty="AmtA9" sortProperty="AmtA9" visible="{P13n>/FixedColumnConfig/48/visible}"
+						width="{P13n>/FixedColumnConfig/48/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/48/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA9'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column49" filterProperty="AmtC9" sortProperty="AmtC9" visible="{P13n>/FixedColumnConfig/49/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/49/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/49/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC9'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column50" filterProperty="AmtCb9" sortProperty="AmtCb9" visible="{P13n>/FixedColumnConfig/50/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/50/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/50/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb9'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column51" filterProperty="AmtB10" sortProperty="AmtB10" visible="{P13n>/FixedColumnConfig/51/visible}"
+						width="{P13n>/FixedColumnConfig/51/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/51/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB10}" id="AmtB10" placeholder="{Project>FC_PlaceHolder_AmtB10}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB10'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB10}" valueStateText="{Project>FC_ValueStateText_AmtB10}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column52" filterProperty="AmtA10" sortProperty="AmtA10" visible="{P13n>/FixedColumnConfig/52/visible}"
+						width="{P13n>/FixedColumnConfig/52/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/52/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA10'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column53" filterProperty="AmtC10" sortProperty="AmtC10" visible="{P13n>/FixedColumnConfig/53/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/53/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/53/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC10'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column54" filterProperty="AmtCb10" sortProperty="AmtCb10" visible="{P13n>/FixedColumnConfig/54/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/54/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/54/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb10'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column55" filterProperty="AmtB11" sortProperty="AmtB11" visible="{P13n>/FixedColumnConfig/55/visible}"
+						width="{P13n>/FixedColumnConfig/55/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/55/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB11}" id="AmtB11" placeholder="{Project>FC_PlaceHolder_AmtB11}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB11'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB11}" valueStateText="{Project>FC_ValueStateText_AmtB11}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column56" filterProperty="AmtA11" sortProperty="AmtA11" visible="{P13n>/FixedColumnConfig/56/visible}"
+						width="{P13n>/FixedColumnConfig/56/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/56/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA11'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column57" filterProperty="AmtC11" sortProperty="AmtC11" visible="{P13n>/FixedColumnConfig/57/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/57/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/57/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC11'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column58" filterProperty="AmtCb11" sortProperty="AmtCb11" visible="{P13n>/FixedColumnConfig/58/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/58/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/58/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb11'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column59" filterProperty="AmtB12" sortProperty="AmtB12" visible="{P13n>/FixedColumnConfig/59/visible}"
+						width="{P13n>/FixedColumnConfig/59/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/59/text}"/>
+						<t:template>
+							<m:Input editable="{Project>FC_Editable_AmtB12}" id="AmtB12" placeholder="{Project>FC_PlaceHolder_AmtB12}" textAlign="Right"
+								liveChange="onBudgetChange" submit="onEnter"
+								value="{parts:[{path:'Project>AmtB12'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"
+								valueState="{Project>FC_ValueState_AmtB12}" valueStateText="{Project>FC_ValueStateText_AmtB12}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column60" filterProperty="AmtA12" sortProperty="AmtA12" visible="{P13n>/FixedColumnConfig/60/visible}"
+						width="{P13n>/FixedColumnConfig/60/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/60/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtA12'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyTypeFull', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column61" filterProperty="AmtC12" sortProperty="AmtC12" visible="{P13n>/FixedColumnConfig/61/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/61/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/61/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtC12'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column62" filterProperty="AmtCb12" sortProperty="AmtCb12" visible="{P13n>/FixedColumnConfig/62/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/62/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/62/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtCb12'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column74" filterProperty="CreatedBy" sortProperty="CreatedBy" visible="{P13n>/FixedColumnConfig/74/visible}"
+						width="{P13n>/FixedColumnConfig/74/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/74/text}"/>
+						<t:template>
+							<m:Text text="{Project>CreatedBy}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column75" filterProperty="CreatedByName" sortProperty="CreatedByName" visible="{P13n>/FixedColumnConfig/75/visible}"
+						width="{P13n>/FixedColumnConfig/75/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/75/text}"/>
+						<t:template>
+							<m:Text text="{Project>CreatedByName}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column76" filterProperty="CreatedTime" sortProperty="CreatedTime" visible="{P13n>/FixedColumnConfig/76/visible}"
+						width="{P13n>/FixedColumnConfig/76/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/76/text}"/>
+						<t:template>
+							<m:Text text="{ path:'Project>CreatedTime', formatter: '.formatter.formatTimestamp'}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column77" filterProperty="ChangedBy" sortProperty="ChangedBy" visible="{P13n>/FixedColumnConfig/77/visible}"
+						width="{P13n>/FixedColumnConfig/77/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/77/text}"/>
+						<t:template>
+							<m:Text text="{Project>ChangedBy}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column78" filterProperty="ChangedByName" sortProperty="ChangedByName" visible="{P13n>/FixedColumnConfig/78/visible}"
+						width="{P13n>/FixedColumnConfig/78/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/78/text}"/>
+						<t:template>
+							<m:Text text="{Project>ChangedByName}"/>
+						</t:template>
+					</t:Column>
+					<t:Column id="Column79" filterProperty="ChangedTime" sortProperty="ChangedTime" visible="{P13n>/FixedColumnConfig/79/visible}"
+						width="{P13n>/FixedColumnConfig/79/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/79/text}"/>
+						<t:template>
+							<m:Text text="{ path:'Project>ChangedTime', formatter: '.formatter.formatTimestamp'}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column81" filterProperty="MaxValueA" sortProperty="MaxValueA" visible="{P13n>/FixedColumnConfig/81/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/81/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/81/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>MaxValueA'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column82" filterProperty="MaxValueC" sortProperty="MaxValueC" visible="{P13n>/FixedColumnConfig/82/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/82/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/82/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>MaxValueC'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column83" filterProperty="MaxValueCb" sortProperty="MaxValueCb" visible="{P13n>/FixedColumnConfig/83/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/83/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/83/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>MaxValueCb'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column84" filterProperty="AmtLe1" sortProperty="AmtLe1" visible="{P13n>/FixedColumnConfig/84/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/84/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/84/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe1'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column85" filterProperty="AmtLe2" sortProperty="AmtLe2" visible="{P13n>/FixedColumnConfig/85/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/85/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/85/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe2'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column86" filterProperty="AmtLe3" sortProperty="AmtLe3" visible="{P13n>/FixedColumnConfig/86/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/86/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/86/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe3'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column87" filterProperty="AmtLe4" sortProperty="AmtLe4" visible="{P13n>/FixedColumnConfig/87/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/87/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/87/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe4'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column88" filterProperty="AmtLe5" sortProperty="AmtLe5" visible="{P13n>/FixedColumnConfig/88/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/88/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/88/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe5'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column89" filterProperty="AmtLe6" sortProperty="AmtLe6" visible="{P13n>/FixedColumnConfig/89/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/89/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/89/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe6'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column90" filterProperty="AmtLe7" sortProperty="AmtLe7" visible="{P13n>/FixedColumnConfig/90/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/90/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/90/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe7'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column91" filterProperty="AmtLe8" sortProperty="AmtLe8" visible="{P13n>/FixedColumnConfig/91/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/91/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/91/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe8'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column92" filterProperty="AmtLe9" sortProperty="AmtLe9" visible="{P13n>/FixedColumnConfig/92/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/92/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/92/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe9'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column93" filterProperty="AmtLe10" sortProperty="AmtLe10" visible="{P13n>/FixedColumnConfig/93/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/93/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/93/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe10'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column94" filterProperty="AmtLe11" sortProperty="AmtLe11" visible="{P13n>/FixedColumnConfig/94/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/94/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/94/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe11'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column95" filterProperty="AmtLe12" sortProperty="AmtLe12" visible="{P13n>/FixedColumnConfig/95/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/95/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/95/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtLe12'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<t:Column id="Column96" filterProperty="AmtLeTot" sortProperty="AmtLeTot" visible="{P13n>/FixedColumnConfig/96/visible}"
+						width="{P13n>/FixedColumnConfig/96/width}">
+						<m:Text text="{P13n>/FixedColumnConfig/96/text}"/>
+						<t:template>
+							<m:Input editable="false" textAlign="Right"
+								value="{parts:[{path:'Project>AmtLeTot'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>
+						</t:template>
+					</t:Column>
+					<!--<t:Column id="Column97" filterProperty="MaxValueLe" sortProperty="MaxValueLe" visible="{P13n>/FixedColumnConfig/97/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/97/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/97/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>MaxValueLe'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column98" filterProperty="AmtBo1" sortProperty="AmtBo1" visible="{P13n>/FixedColumnConfig/98/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/98/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/98/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo1'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column99" filterProperty="AmtBo2" sortProperty="AmtBo2" visible="{P13n>/FixedColumnConfig/99/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/99/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/99/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo2'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column100" filterProperty="AmtBo3" sortProperty="AmtBo3" visible="{P13n>/FixedColumnConfig/100/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/100/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/100/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo3'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column101" filterProperty="AmtBo4" sortProperty="AmtBo4" visible="{P13n>/FixedColumnConfig/101/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/101/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/101/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo4'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column102" filterProperty="AmtBo5" sortProperty="AmtBo5" visible="{P13n>/FixedColumnConfig/102/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/102/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/102/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo5'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column103" filterProperty="AmtBo6" sortProperty="AmtBo6" visible="{P13n>/FixedColumnConfig/103/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/103/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/103/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo6'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column104" filterProperty="AmtBo7" sortProperty="AmtBo7" visible="{P13n>/FixedColumnConfig/104/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/104/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/104/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo7'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column105" filterProperty="AmtBo8" sortProperty="AmtBo8" visible="{P13n>/FixedColumnConfig/105/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/105/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/105/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo8'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column106" filterProperty="AmtBo9" sortProperty="AmtBo9" visible="{P13n>/FixedColumnConfig/106/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/106/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/106/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo9'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column107" filterProperty="AmtBo10" sortProperty="AmtBo10" visible="{P13n>/FixedColumnConfig/107/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/107/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/107/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo10'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column108" filterProperty="AmtBo11" sortProperty="AmtBo11" visible="{P13n>/FixedColumnConfig/108/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/108/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/108/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo11'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column109" filterProperty="AmtBo12" sortProperty="AmtBo12" visible="{P13n>/FixedColumnConfig/109/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/109/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/109/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBo12'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--<t:Column id="Column110" filterProperty="AmtBoTot" sortProperty="AmtBoTot" visible="{P13n>/FixedColumnConfig/110/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/110/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/110/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="false" textAlign="Right"-->
+					<!--			value="{parts:[{path:'Project>AmtBoTot'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--Begin of Commenting - Khrystyne Williams - Nov 2016-->
+					<!--<t:Column id="Column111" filterProperty="MaxValueBo" sortProperty="MaxValueBo" visible="{P13n>/FixedColumnConfig/111/visible}"-->
+					<!--	width="{P13n>/FixedColumnConfig/111/width}">-->
+					<!--	<m:Text text="{P13n>/FixedColumnConfig/111/text}"/>-->
+					<!--	<t:template>-->
+					<!--		<m:Input editable="{Project>FC_Editable_MaxValueBo}" id="MaxValueBo" placeholder="{Project>FC_PlaceHolder_MaxValueBo}" textAlign="Right"-->
+					<!--			liveChange="onBudgetChange" submit="onEnter"-->
+					<!--			value="{parts:[{path:'Project>MaxValueBo'},{path:'Project>Currency'}], type: 'colgate.asm.planning.base.util.CustomCurrencyType', formatOptions: {showMeasure: false, currencyCode: false, minFractionDigits:0, maxFractionDigits:0}}"-->
+					<!--			valueState="{Project>FC_ValueState_MaxValueBo}" valueStateText="{Project>FC_ValueStateText_MaxValueBo}"/>-->
+					<!--	</t:template>-->
+					<!--</t:Column>-->
+					<!--End of Commenting - Khrystyne Williams - Nov 2016-->
+					<t:Column id="Column112" filterProperty="DemographicsDesc" sortProperty="DemographicsDesc" visible="{P13n>/FixedColumnConfig/112/visible}"
+						width="{P13n>/FixedColumnConfig/112/width}" >
+						<m:Text text="{P13n>/FixedColumnConfig/112/text}"/>
+						<t:template>
+							<m:Text text="{Project>DemographicsDesc}"/>
+						</t:template>
+					</t:Column>
+				</t:columns>
+			</t:TreeTable>
+			<!--	</l:content>-->
+			<!--</l:VerticalLayout>-->
+			<!--End of Changes - Khrystyne Williams - Nov-->
+		</semantic:content>
+		<semantic:messagesIndicator>
+			<semantic:MessagesIndicator press="onMessagesButtonPress"/>
+		</semantic:messagesIndicator>
+	</semantic:DetailPage>
+</mvc:View>

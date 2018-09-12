@@ -1,0 +1,131 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table" xmlns:f="sap.ui.layout.form"
+	xmlns:custom="colgate.asm.planning.base.util">
+	<P13nDialog id="CSBDialog" showHeader="false" showReset="false" ok="onCSBok" cancel="onCSBcancel" resizable="false" class="sapUiSizeCompact"
+		contentWidth="45rem">
+		<panels>
+			<custom:CustomCrossSubBrand type="custom1">
+				<custom:content id="CSBContent">
+					<FlexBox direction="Column" justifyContent="Center" alignContent="SpaceAround">
+						<FlexBox height="0.5rem"/>
+						<FlexBox alignContent="Center" alignItems="Center" justifyContent="Center">
+							<Title id="CSBtitle" text="{i18n>AC_TAVCrossSubBrand} {ChangeActivity>/CSBSubbrand/Count/Current}" level="H4" titleStyle="H4" visible="true"/>
+						</FlexBox>
+						<FlexBox height="0.5rem"/>
+						<FlexBox direction="Row" alignContent="center" alignItems="center" justifyContent="Center">
+							<FlexBox direction="Column" width="15rem" alignContent="Center" alignItems="Start">
+								<items>
+									<Title titleStyle="H6" text="{i18n>AC_category}"/>
+									<Select forceSelection="false" id="CSBCategoryKey" selectedKey="{ChangeActivity>/CSBSubbrand/CSBCategoryKey}"
+										items="{path:'ChangeActivity>/CSBCategory/Current'}" change="_onCSBFilterchange" width="14rem">
+										<items>
+											<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+										</items>
+									</Select>
+								</items>
+							</FlexBox>
+							<FlexBox direction="Column" width="15rem" alignContent="SpaceBetween" alignItems="Start">
+								<items>
+									<Title titleStyle="H6" text="{i18n>AC_pscategory}"/>
+									<Select forceSelection="false" id="CSBSubcategoryKey" selectedKey="{ChangeActivity>/CSBSubbrand/CSBSubcategoryKey}"
+										items="{path:'ChangeActivity>/CSBSubcategory/Current'}" change="_onCSBFilterchange" width="14rem">
+										<items>
+											<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+										</items>
+									</Select>
+								</items>
+							</FlexBox>
+							<FlexBox direction="Column" width="14rem" alignContent="SpaceBetween" alignItems="Start">
+								<Title titleStyle="H6" text="{i18n>AC_brand}"/>
+								<Select forceSelection="false" id="CSBBrandKey" selectedKey="{ChangeActivity>/CSBSubbrand/CSBBrandKey}"
+									items="{path:'ChangeActivity>/CSBBrand/Current'}" change="_onCSBFilterchange" width="14rem">
+									<items>
+										<core:Item key="{ChangeActivity>Key}" text="{ChangeActivity>Description}"/>
+									</items>
+								</Select>
+							</FlexBox>
+						</FlexBox>
+						<FlexBox id="FCrossSubBrandTable">
+							<t:Table id="CSBTable_Available" selectionMode="MultiToggle" rows="{path:'ChangeActivity>/CSBSubbrand/Current'}" enableCellFilter="true"
+								ariaLabelledBy="title" visibleRowCount="5" selectionBehavior="Row">
+								<t:toolbar>
+									<Toolbar>
+										<SearchField id="CSBSearch" value="{ui>/globalFilter}" search="onSearchCSB" width="28rem"/>
+										<ToolbarSeparator/>
+										<Button icon="sap-icon://decline" tooltip="{i18n>AC_Clearselection}" press="_clearAllCSBSelection"/>
+										<Button text="Add Sub-Brand" type="Accept" icon="sap-icon://add" tooltip="Add Selected Sub-Brand" press="_addCSBbrands" width="10rem"/>
+									</Toolbar>
+								</t:toolbar>
+								<t:columns>
+									<t:Column width="6rem" visible="false">
+										<Label design="Bold" text="Sub-Brand Key"/>
+										<t:template>
+											<Text text="{ChangeActivity>SubbrandKey}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column filterProperty="SubbrandDesc">
+										<Label design="Bold" text="Sub-Brand"/>
+										<t:template>
+											<Text text="{ChangeActivity>SubbrandDesc}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column filterProperty="BrandDesc" visible="false">
+										<Label design="Bold" text="Brand"/>
+										<t:template>
+											<Text text="{ChangeActivity>BrandDesc}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column filterProperty="PcategoryDesc" visible="false">
+										<Label design="Bold" text="Sub-Category"/>
+										<t:template>
+											<Text text="{ChangeActivity>PcategoryDesc}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column filterProperty="CategoryDesc" visible="false">
+										<Label design="Bold" text="Category"/>
+										<t:template>
+											<Text text="{ChangeActivity>CategoryDesc}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+								</t:columns>
+							</t:Table>
+						</FlexBox>
+						<FlexBox height="0.5rem"/>
+						<FlexBox alignContent="Center" alignItems="Center" justifyContent="Center">
+							<Title id="CSBtitle1" text="{i18n>AC_TSECrossSubBrand} {ChangeActivity>/CSBSubbrand/Count/Selected}" level="H4" titleStyle="H4"
+								visible="true"/>
+						</FlexBox>
+						<FlexBox height="0.5rem"/>
+						<FlexBox id="ListofCSB">
+							<t:Table id="CSBTable_Selected" selectionMode="MultiToggle" rows="{path:'ChangeActivity>/CSBSubbrand/Selected'}" enableCellFilter="true"
+								ariaLabelledBy="title" visibleRowCount="5" selectionBehavior="Row">
+								<t:toolbar>
+									<Toolbar>
+										<SearchField id="CSBSearchavailable" value="{ui>/globalFilter}" search="onSearchCSB" width="28rem"/>
+										<ToolbarSeparator/>
+										<Button icon="sap-icon://decline" tooltip="{i18n>AC_Clearselection}" press="_clearAllCSBSelection"/>
+										<Button text="Delete Sub-Brand" type="Reject" icon="sap-icon://delete" tooltip="Delete Selected Sub-Brand" press="_deleteCSBBrands"
+											width="10rem"/>
+									</Toolbar>
+								</t:toolbar>
+								<t:columns>
+									<t:Column width="6rem" visible="false">
+										<Label design="Bold" text="Sub-Brand Key"/>
+										<t:template>
+											<Text text="{ChangeActivity>SubbrandKey}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column filterProperty="SubbrandDesc">
+										<Label design="Bold" text="Sub-Brand"/>
+										<t:template>
+											<Text text="{ChangeActivity>SubbrandDesc}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+								</t:columns>
+							</t:Table>
+						</FlexBox>
+					</FlexBox>
+				</custom:content>
+			</custom:CustomCrossSubBrand>
+		</panels>
+	</P13nDialog>
+</core:FragmentDefinition>
