@@ -1803,7 +1803,7 @@ sap.ui.define([
 				oEnabled.CrossSubBrandButton = true; //INBHD02
 			}
 			// end of changes
-
+			oModel.refresh(false);
 			if (oInput.ItemType === "AT" || oInput.ItemType === "SA") {
 				oVisible.MaxValueC = false;
 				// Activity

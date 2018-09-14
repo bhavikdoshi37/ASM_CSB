@@ -403,9 +403,10 @@ sap.ui.define([
 									processor: oContext.oMessageProcessor
 								})
 							);
-						} else {
-							oRecord._EmptyPlanWarning = false;
-						}
+						} 
+						// else {
+						// 	oRecord._EmptyPlanWarning = false;
+						// }
 					}
 				}
 			}
