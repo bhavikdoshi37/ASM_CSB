@@ -268,6 +268,7 @@ sap.ui.define([
 						// Added a check for PH and plan values	- Khrystyne 10.04.2018					
 						bAllowSave = ValidationUtils.cc_PublishCheck(oContext, aSelected);
 						if (bAllowSave) {
+						// Added a check for PH and plan values	- Khrystyne 10.04.2018												
 							for (var j = 0; j < aSelected.length; j++) {
 								var sPath = oContext.byId("Table").getContextByIndex(aSelected[j]).getPath();
 								var oRecord = oContext.getModel("Project").getProperty(sPath);

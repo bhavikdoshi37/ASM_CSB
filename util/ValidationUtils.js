@@ -387,17 +387,19 @@ sap.ui.define([
 							parseFloat(oRecord.AmtB4) + parseFloat(oRecord.AmtB5) + parseFloat(oRecord.AmtB6) +
 							parseFloat(oRecord.AmtB7) + parseFloat(oRecord.AmtB8) + parseFloat(oRecord.AmtB9) +
 							parseFloat(oRecord.AmtB10) + parseFloat(oRecord.AmtB11) + parseFloat(oRecord.AmtB12);
-						if (nTotalPlan <= parseFloat("0.0") && !oRecord._EmptyPlanWarning) {
-							oRecord._EmptyPlanWarning = true;
-							if (oRecord._ValueState === "None") {
-								oRecord._ValueState = "Warning";
-							}
+						// if (nTotalPlan <= parseFloat("0.0") && !oRecord._EmptyPlanWarning) {
+							// oRecord._EmptyPlanWarning = true;
+							// if (oRecord._ValueState === "None") {
+							// oRecord._ValueState = "Warning";
+							// }
+						if (nTotalPlan <= parseFloat("0.0")) {
+							oRecord._ValueState = "Error"; //Bhavik															
 							bAllowSave = false;
 							oContext.oMessageManager.addMessages(
 								new sap.ui.core.message.Message({
 									message: oContext.getOwnerComponent().getModel("i18n").getResourceBundle().getText("SCU_E_SANoPlan", [oRecord.Name]),
 									description: "",
-									type: sap.ui.core.ValueState.Warning,
+									type: sap.ui.core.ValueState.Error,
 									processor: oContext.oMessageProcessor
 								})
 							);
