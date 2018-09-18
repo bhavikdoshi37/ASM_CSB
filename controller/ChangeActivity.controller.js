@@ -778,8 +778,15 @@ sap.ui.define([
 				}
 				oPromise.then(function(oData) {
 					if (oACModel.getProperty("/Input/CategoryKey") !== "") {
-						oACModel.setProperty("/Enabled/Subcategory", true);
+						//Khrystyne PH locking issue 09.18.2018
+						if (oACModel.getProperty("/Input/Status") === "9002") {
+							oACModel.setProperty("/Enabled/Subcategory", true);
+						} else {
+							oACModel.setProperty("/Enabled/Subcategory", false);
+						}
+						//Khrystyne PH locking issue 09.18.2018
 						oACModel.setProperty("/Placeholders/Subcategory", that.getOwnerComponent().getModel("i18n").getProperty("AC_P_subcategory_e"));
+
 					} else {
 						oACModel.setProperty("/Enabled/Subcategory", false);
 						oACModel.setProperty("/Placeholders/Subcategory", that.getOwnerComponent().getModel("i18n").getProperty("AC_P_subcategory"));
@@ -792,7 +799,13 @@ sap.ui.define([
 					if (oACModel.getProperty("/Input/BrandKey") && oACModel.getProperty("/Input/BrandKey") !== "" &&
 						oACModel.getProperty("/Input/CategoryKey") && oACModel.getProperty("/Input/CategoryKey") !== "" &&
 						oACModel.getProperty("/Input/SubcategoryKey") && oACModel.getProperty("/Input/SubcategoryKey") !== "") {
-						oACModel.setProperty("/Enabled/Subbrand", true);
+						//Khrystyne PH locking issue 09.18.2018
+						if (oACModel.getProperty("/Input/Status") === "9002") {
+							oACModel.setProperty("/Enabled/Subbrand", true);
+						} else {
+							oACModel.setProperty("/Enabled/Subbrand", false);
+						}
+						//Khrystyne PH locking issue 09.18.2018
 						oACModel.setProperty("/Placeholders/Subbrand", that.getOwnerComponent().getModel("i18n").getProperty("AC_P_subbrand_e"));
 						var sbmodel = that.getModel("Subbrand");
 						if (!sbmodel) {
@@ -848,7 +861,13 @@ sap.ui.define([
 							}, 200);
 						});
 						oSBPromise.then(function(oData) {
-							oACModel.setProperty("/Enabled/Subbrand", true);
+							//Khrystyne PH locking issue 09.18.2018
+							if (oACModel.getProperty("/Input/Status") === "9002") {
+								oACModel.setProperty("/Enabled/Subbrand", true);
+							} else {
+								oACModel.setProperty("/Enabled/Subbrand", false);
+							}
+							//Khrystyne PH locking issue 09.18.2018
 							oACModel.setProperty("/Placeholders/Subbrand", that2.getOwnerComponent().getModel("i18n").getProperty("AC_P_subbrand_e"));
 							that2._getMaestroBrief();
 						});
@@ -2356,12 +2375,13 @@ sap.ui.define([
 		// INBHD02
 		onSelectCrossBrand: function(oEvent) {
 			var oModel = this.getModel("ChangeActivity");
-			var oInput = oModel.getData();
+			// var oInput = oModel.getData();
 
 			if (!this.oPersonalizationDialog) {
 				this.oPersonalizationDialog = sap.ui.xmlfragment("colgate.asm.planning.base.fragment.CrossSubBrand", this);
 				this.getView().addDependent(this.oPersonalizationDialog);
 				this._getdefaultCSBfilter();
+				this._initializeCSBCount(oModel);
 			}
 			this.oPersonalizationDialog.open();
 		},
@@ -2384,7 +2404,7 @@ sap.ui.define([
 				state: 'Warning',
 				content: new Text({
 					text: this.getModel("i18n").getResourceBundle().getText("CSBConfirmcancel")
-					// text: 'Are you sure you want to discard all the changes?'
+						// text: 'Are you sure you want to discard all the changes?'
 				}),
 				beginButton: new Button({
 					text: 'Yes',
@@ -2753,11 +2773,11 @@ sap.ui.define([
 		},
 
 		_addCSBbrands: function(oEvent) {
-
 			var oModel = this.getModel("ChangeActivity"),
 				CSBTable = oEvent.oSource.getParent().getParent(),
 				SelectedRowContext = CSBTable.getSelectedIndices(),
-				binding = CSBTable.getBinding();
+				binding = CSBTable.getBinding("rows"),
+				bindingaIndices = binding.aIndices;
 
 			if (SelectedRowContext.length) {
 				for (var i = 0; i < SelectedRowContext.length; i++) {
@@ -2765,7 +2785,7 @@ sap.ui.define([
 						newdata = {},
 						FData = {};
 
-					rowIndices = SelectedRowContext[i];
+					rowIndices = bindingaIndices[SelectedRowContext[i]];
 
 					var selctedrow = binding.oList[rowIndices];
 
@@ -2786,7 +2806,7 @@ sap.ui.define([
 				}
 
 				var reverse = [].concat(CSBTable.getSelectedIndices()).reverse();
-
+				// var reverse = [].concat(binding.aIndices).reverse();
 				reverse.forEach(function(index) {
 					oModel.getData().CSBSubbrand.Current.splice(index, 1);
 				});
@@ -2794,7 +2814,10 @@ sap.ui.define([
 				oModel.oData.CSBSubbrand.Count.Selected = "(" + oModel.oData.CSBSubbrand.Selected.length + ")";
 				oModel.oData.CSBSubbrand.Count.Current = "(" + oModel.oData.CSBSubbrand.Current.length + ")";
 
+				// oModel.oData.CSBSubbrand.Current.sort();
+
 				oModel.refresh(false);
+				oModel.oData.CSBSubbrand.Selected.sort();
 				CSBTable.clearSelection();
 
 			} else {
@@ -2808,10 +2831,11 @@ sap.ui.define([
 				oChange = oModel.getData().CSBSubbrand.Change,
 
 				CSBTable_Selected = oEvent.oSource.getParent().getParent(),
-				SelectedRowContext = CSBTable_Selected.getSelectedIndices(),
-				binding = CSBTable_Selected.getBinding();
+				SelectedRowCount = CSBTable_Selected.getSelectedIndices(),
+				binding = CSBTable_Selected.getBinding("rows"),
+				SelectedRowContext = binding.aIndices;
 
-			if (SelectedRowContext.length) {
+			if (SelectedRowCount.length) {
 				for (var i = 0; i < SelectedRowContext.length; i++) {
 					var newdata = {},
 						FData = {},
@@ -2857,8 +2881,8 @@ sap.ui.define([
 					}
 				}
 
-				var reverse = [].concat(CSBTable_Selected.getSelectedIndices()).reverse();
-
+				// var reverse = [].concat(CSBTable_Selected.getSelectedIndices()).reverse();
+				var reverse = [].concat(binding.aIndices).reverse();
 				reverse.forEach(function(index) {
 					oModel.getData().CSBSubbrand.Selected.splice(index, 1);
 				});
@@ -2866,9 +2890,10 @@ sap.ui.define([
 				oModel.oData.CSBSubbrand.Count.Selected = "(" + oModel.oData.CSBSubbrand.Selected.length + ")";
 				oModel.oData.CSBSubbrand.Count.Current = "(" + oModel.oData.CSBSubbrand.Current.length + ")";
 
-				oModel.refresh(false);
-				CSBTable_Selected.clearSelection();
+				// oModel.oData.CSBSubbrand.Selected.sort();
 
+				oModel.refresh(false);
+				oModel.oData.CSBSubbrand.Current.sort();
 			} else {
 				var sMessage = this.getModel("i18n").getResourceBundle().getText("AC_CSBDeleteError");
 				MessageToast.show(sMessage);
@@ -2930,7 +2955,25 @@ sap.ui.define([
 			oData.CSBSubbrand.Count.Selected = "(0)";
 
 			oModel.refresh(false);
+		},
+
+		_initializeCSBCount: function(oModel) {
+			var oData = oModel.getData();
+
+			if (oData.CSBSubbrand.Selected.length) {
+				oData.CSBSubbrand.Count.Selected = {};
+				oData.CSBSubbrand.Count.Selected = "(" + oData.CSBSubbrand.Selected.length + ")";
+			} else {
+				oData.CSBSubbrand.Count.Selected = "(0)";
+			}
+
+			oModel.refresh(false);
 		}
+
+		// sortCSBTable: function(oTable) {
+
+		// 	oTable.sort(oView.byId("name"), SortOrder.Ascending, true);
+		// }
 
 		// INBHD02		
 	});

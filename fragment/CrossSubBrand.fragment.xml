@@ -45,8 +45,9 @@
 							</FlexBox>
 						</FlexBox>
 						<FlexBox id="FCrossSubBrandTable">
-							<t:Table id="CSBTable_Available" selectionMode="MultiToggle" rows="{path:'ChangeActivity>/CSBSubbrand/Current'}" enableCellFilter="true"
-								ariaLabelledBy="title" visibleRowCount="5" selectionBehavior="Row">
+							<t:Table id="CSBTable_Available" selectionMode="MultiToggle"
+								rows="{path:'ChangeActivity>/CSBSubbrand/Current'}" enableCellFilter="true" ariaLabelledBy="title"
+								visibleRowCount="5" selectionBehavior="Row">
 								<t:toolbar>
 									<Toolbar>
 										<SearchField id="CSBSearch" value="{ui>/globalFilter}" search="onSearchCSB" width="28rem"/>
@@ -62,7 +63,7 @@
 											<Text text="{ChangeActivity>SubbrandKey}" wrapping="false"/>
 										</t:template>
 									</t:Column>
-									<t:Column filterProperty="SubbrandDesc">
+									<t:Column filterProperty="SubbrandDesc" visible="true" sortOrder="Ascending">
 										<Label design="Bold" text="Sub-Brand"/>
 										<t:template>
 											<Text text="{ChangeActivity>SubbrandDesc}" wrapping="false"/>
@@ -114,7 +115,7 @@
 											<Text text="{ChangeActivity>SubbrandKey}" wrapping="false"/>
 										</t:template>
 									</t:Column>
-									<t:Column filterProperty="SubbrandDesc">
+									<t:Column filterProperty="SubbrandDesc" sortOrder="Ascending">
 										<Label design="Bold" text="Sub-Brand"/>
 										<t:template>
 											<Text text="{ChangeActivity>SubbrandDesc}" wrapping="false"/>
